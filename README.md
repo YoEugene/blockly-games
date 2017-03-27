@@ -25,3 +25,10 @@ All code is free and open source.
 * Deploy to Google Cloud
     * $ cd appengine
     * $ gcloud app deploy
+
+## Maze
+
+* 每次進入新關卡時，會透過url傳入level，maze.js裡會根據level拿相應的地圖和設置
+
+* 每一關能用哪些block是在哪裡定義的？
+    * appengine/maze/template.soy 的最下面 Toolboxes for each level
