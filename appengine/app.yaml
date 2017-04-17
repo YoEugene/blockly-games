@@ -25,6 +25,15 @@ handlers:
   static_dir: index
   secure: always
 
+# Courses page.
+- url: /courses
+  static_files: courses.html
+  upload: courses\.html
+  secure: always
+- url: /courses/
+  static_dir: courses
+  secure: always
+
 # About page.
 - url: /about
   static_files: about.html
