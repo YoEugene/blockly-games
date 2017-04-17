@@ -35,11 +35,203 @@ goog.require('Maze.soy');
 BlocklyGames.NAME = 'maze';
 
 /**
+ * The types of squares in the maze, which is represented
+ * as a 2D array of SquareType values.
+ * @enum {number}
+ */
+Maze.SquareType = {
+  WALL: 0,
+  OPEN: 1,
+  START: 2,
+  FINISH: 3
+};
+
+Maze.LEVELS = [
+  // Level 0.
+  {
+    max_blocks: undefined,
+    map: undefined,
+  },
+  // Level 1.
+  {
+    max_blocks: Infinity,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 2, 1, 3, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 2.
+  {
+    max_blocks: Infinity,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 3, 0, 0, 0],
+      [0, 0, 2, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 3.
+  {
+    max_blocks: 2,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 2, 1, 1, 1, 1, 3, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 4.
+  /**
+   * Note, the path continues past the start and the goal in both directions.
+   * This is intentionally done so users see the maze is about getting from
+   * the start to the goal and not necessarily about moving over every part of
+   * the maze, 'mowing the lawn' as Neil calls it.
+   */
+  {
+    max_blocks: 5,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 0, 0, 0, 1, 1],
+      [0, 0, 0, 0, 0, 3, 1, 0],
+      [0, 0, 0, 0, 1, 1, 0, 0],
+      [0, 0, 0, 1, 1, 0, 0, 0],
+      [0, 0, 1, 1, 0, 0, 0, 0],
+      [0, 2, 1, 0, 0, 0, 0, 0],
+      [1, 1, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 5.
+  {
+    max_blocks: 5,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 3, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 2, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 6.
+  {
+    max_blocks: 5,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 0, 0],
+      [0, 1, 0, 0, 0, 1, 0, 0],
+      [0, 1, 1, 3, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 2, 1, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 7.
+  {
+    max_blocks: 5,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 1, 0],
+      [0, 2, 1, 1, 1, 1, 0, 0],
+      [0, 0, 0, 0, 0, 1, 1, 0],
+      [0, 1, 1, 3, 0, 1, 0, 0],
+      [0, 1, 0, 1, 0, 1, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 8.
+  {
+    max_blocks: 10,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 0, 0, 0],
+      [0, 1, 0, 0, 1, 1, 0, 0],
+      [0, 1, 1, 1, 0, 1, 0, 0],
+      [0, 0, 0, 1, 0, 1, 0, 0],
+      [0, 2, 1, 1, 0, 3, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 9.
+  {
+    max_blocks: 7,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 1, 1, 0, 0],
+      [0, 0, 1, 0, 0, 0, 0, 0],
+      [3, 1, 1, 1, 1, 1, 1, 0],
+      [0, 1, 0, 1, 0, 1, 1, 0],
+      [1, 1, 1, 1, 1, 0, 1, 0],
+      [0, 1, 0, 1, 0, 2, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 10.
+  {
+    max_blocks: 10,
+    map:
+     [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 0, 3, 0, 1, 0],
+      [0, 1, 1, 0, 1, 1, 1, 0],
+      [0, 1, 0, 1, 0, 1, 0, 0],
+      [0, 1, 1, 1, 1, 1, 1, 0],
+      [0, 0, 0, 1, 0, 0, 1, 0],
+      [0, 2, 1, 1, 1, 0, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0]],
+  },
+  // Level 11.
+  {
+    max_blocks: 10,
+    map:
+     [[0, 0, 0, 1, 0, 1, 0],
+      [0, 0, 1, 1, 1, 1, 3],
+      [0, 0, 0, 1, 0, 1, 0],
+      [0, 0, 1, 1, 1, 0, 0],
+      [0, 1, 0, 1, 0, 0, 0],
+      [2, 1, 1, 1, 1, 0, 0],
+      [0, 1, 0, 1, 0, 0, 0]],
+  },
+   // Level 12.
+  {
+    max_blocks: 12,
+    map:
+     [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
+  },
+];
+
+Maze.MAX_LEVEL = Maze.LEVELS.length - 1;
+Maze.map = Maze.LEVELS[BlocklyGames.LEVEL].map;
+Maze.MAX_BLOCKS = Maze.LEVELS[BlocklyGames.LEVEL].max_blocks,
+
+/**
  * Go to the next level.
  * @suppress {duplicate}
  */
 BlocklyInterface.nextLevel = function() {
-  if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+  // if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
+  if (BlocklyGames.LEVEL < Maze.MAX_LEVEL) {
     window.location = window.location.protocol + '//' +
         window.location.host + window.location.pathname +
         '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1) +
@@ -48,9 +240,6 @@ BlocklyInterface.nextLevel = function() {
     BlocklyInterface.indexPage();
   }
 };
-
-Maze.MAX_BLOCKS = [undefined, // Level 0.
-    Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][BlocklyGames.LEVEL];
 
 // Crash type constants.
 Maze.CRASH_STOP = 1;
@@ -110,140 +299,6 @@ Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
  * Milliseconds between each animation frame.
  */
 Maze.stepSpeed;
-
-/**
- * The types of squares in the maze, which is represented
- * as a 2D array of SquareType values.
- * @enum {number}
- */
-Maze.SquareType = {
-  WALL: 0,
-  OPEN: 1,
-  START: 2,
-  FINISH: 3
-};
-
-// The maze square constants defined above are inlined here
-// for ease of reading and writing the static mazes.
-Maze.map = [
-// Level 0.
- undefined,
-// Level 1.
- [[0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 2, 1, 3, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0]],
-
-// Level 2.
- // [[0, 0, 0, 0, 0, 0, 0, 0],
- //  [0, 0, 0, 0, 0, 0, 0, 0],
- //  [0, 0, 0, 0, 0, 0, 0, 0],
- //  [0, 0, 0, 1, 3, 0, 0, 0],
- //  [0, 0, 2, 1, 0, 0, 0, 0],
- //  [0, 0, 0, 0, 0, 0, 0, 0],
- //  [0, 0, 0, 0, 0, 0, 0, 0],
- //  [0, 0, 0, 0, 0, 0, 0, 0]],
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 3, 0, 0, 0],
-  [0, 0, 2, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 3.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 1, 1, 1, 1, 3, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 4.
-/**
- * Note, the path continues past the start and the goal in both directions.
- * This is intentionally done so users see the maze is about getting from
- * the start to the goal and not necessarily about moving over every part of
- * the maze, 'mowing the lawn' as Neil calls it.
- */
- [[0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 1, 1],
-  [0, 0, 0, 0, 0, 3, 1, 0],
-  [0, 0, 0, 0, 1, 1, 0, 0],
-  [0, 0, 0, 1, 1, 0, 0, 0],
-  [0, 0, 1, 1, 0, 0, 0, 0],
-  [0, 2, 1, 0, 0, 0, 0, 0],
-  [1, 1, 0, 0, 0, 0, 0, 0]],
-// Level 5.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 3, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 2, 1, 1, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 6.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 1, 1, 0, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0],
-  [0, 1, 1, 3, 0, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0],
-  [0, 2, 1, 1, 1, 1, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 7.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0],
-  [0, 2, 1, 1, 1, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0],
-  [0, 1, 1, 3, 0, 1, 0, 0],
-  [0, 1, 0, 1, 0, 1, 0, 0],
-  [0, 1, 1, 1, 1, 1, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 8.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 1, 0, 0, 0],
-  [0, 1, 0, 0, 1, 1, 0, 0],
-  [0, 1, 1, 1, 0, 1, 0, 0],
-  [0, 0, 0, 1, 0, 1, 0, 0],
-  [0, 2, 1, 1, 0, 3, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 9.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 1, 1, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0],
-  [3, 1, 1, 1, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0, 1, 1, 0],
-  [1, 1, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 2, 1, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
-// Level 10.
-//  [[0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 1, 1, 0, 3, 0, 1, 0],
-//   [0, 1, 1, 0, 1, 1, 1, 0],
-//   [0, 1, 0, 1, 0, 1, 0, 0],
-//   [0, 1, 1, 1, 1, 1, 1, 0],
-//   [0, 0, 0, 1, 0, 0, 1, 0],
-//   [0, 2, 1, 1, 1, 0, 1, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0]]
- [[0, 0, 0, 1, 0, 1, 0],
-  [0, 0, 1, 1, 1, 1, 3],
-  [0, 0, 0, 1, 0, 1, 0],
-  [0, 0, 1, 1, 1, 0, 0],
-  [0, 1, 0, 1, 0, 0, 0],
-  [2, 1, 1, 1, 1, 0, 0],
-  [0, 1, 0, 1, 0, 0, 0]]
-
-][BlocklyGames.LEVEL];
 
 /**
  * Measure maze dimensions and set sizes.
@@ -478,7 +533,8 @@ Maze.init = function() {
   document.body.innerHTML = Maze.soy.start({}, null,
       {lang: BlocklyGames.LANG,
        level: BlocklyGames.LEVEL,
-       maxLevel: BlocklyGames.MAX_LEVEL,
+      //  maxLevel: BlocklyGames.MAX_LEVEL,
+       maxLevel: Maze.MAX_LEVEL,
        skin: Maze.SKIN_ID,
        html: BlocklyGames.IS_HTML});
 
@@ -529,7 +585,8 @@ Maze.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
+  // var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
+  var scale = 1 + (1 - (BlocklyGames.LEVEL / Maze.MAX_LEVEL)) / 3;
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
        'maxBlocks': Maze.MAX_BLOCKS,
@@ -1552,5 +1609,9 @@ Maze.isPath = function(direction, id) {
 Maze.notDone = function() {
   return Maze.pegmanX != Maze.finish_.x || Maze.pegmanY != Maze.finish_.y;
 };
+
+// Maze.placeStone = function() {
+
+// };
 
 window.addEventListener('load', Maze.init);

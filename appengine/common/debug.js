@@ -34,6 +34,9 @@ function setDebug(debug) {
 }
 
 (function() {
+  // roger
+  sessionStorage.setItem('debug', 1);
+
   var debug = !!sessionStorage.getItem('debug');
   document.getElementById(debug ? 'debug1' : 'debug0').checked = true;
 })();

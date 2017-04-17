@@ -32,3 +32,37 @@ All code is free and open source.
 
 * 每一關能用哪些block是在哪裡定義的？
     * appengine/maze/template.soy 的最下面 Toolboxes for each level
+
+* 新增積木的方法
+    * 在`block.js`增加 block 的定義，其中message0: BlocklyGames.getMsg('Maze_moveForward'), 的 'Maze_moveForward' 是在 `template.soy` 的 {template .messages} 定義的，而文字是在 `en.json`, `zh-hant.json`, ... 裡面定義的
+    * block 的 code對應的function是定義在 maze.js 裡，例如
+
+    ```
+    Maze.move = function(direction, id) {
+        ...
+    };
+    ```
+
+    最後還要用以下的code來inject到global scope
+
+    ```
+    Maze.initInterpreter = function(interpreter, scope) {
+        // API
+        var wrapper;
+        wrapper = function(id) {
+            Maze.move(0, id.toString());
+        };
+        interpreter.setProperty(scope, 'moveForward',
+            interpreter.createNativeFunction(wrapper));
+        ...
+    }
+    ```
+
+* Blockly Games有預設每個課程的關卡上限是10，這是在 `lib-games.js` 裡的 `BlocklyGames.MAX_LEVEL = 10;` 定義的，可修改
+
+
+## 創建新頁面
+* 觀念：
+    * 先建立一個空殼 appengine/xxx.html
+    * 把空殼中的 <body> 中要用到的files放在 appengine/xxx/yyy
+    * 寫 makefile

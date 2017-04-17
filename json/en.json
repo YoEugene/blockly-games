@@ -76,6 +76,7 @@
 	"Puzzle.checkAnswers": "Check Answers",
 	"Puzzle.helpText": "For each animal (green), attach its picture, choose its number of legs, and make a stack of its traits.",
 	"Maze.moveForward": "move forward",
+	"Maze.placeStone": "place a stone",
 	"Maze.turnLeft": "turn left",
 	"Maze.turnRight": "turn right",
 	"Maze.doCode": "do",

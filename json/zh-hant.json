@@ -81,6 +81,7 @@
 	"Puzzle.checkAnswers": "檢查答案",
 	"Puzzle.helpText": "為每個動物（綠色）加上它的圖片、選擇腿的數量並加入其擁有的特徵。",
 	"Maze.moveForward": "向前移動",
+	"Maze.placeStone": "放置石頭",
 	"Maze.turnLeft": "左轉",
 	"Maze.turnRight": "右轉",
 	"Maze.doCode": "執行",

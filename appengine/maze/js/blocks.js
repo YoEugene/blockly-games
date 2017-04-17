@@ -201,3 +201,26 @@ Blockly.JavaScript['maze_forever'] = function(block) {
   }
   return 'while (notDone()) {\n' + branch + '}\n';
 };
+
+
+
+Blockly.Blocks['maze_placeStone'] = {
+  /**
+   * Block for moving forward.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('Maze_placeStone'),
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Maze.Blocks.MOVEMENT_HUE,
+      "tooltip": BlocklyGames.getMsg('Maze_placeStoneTooltip')
+    });
+  }
+};
+
+Blockly.JavaScript['maze_placeStone'] = function(block) {
+  // Generate JavaScript for moving forward.
+  return 'placeStone(\'block_id_' + block.id + '\');\n';
+};
