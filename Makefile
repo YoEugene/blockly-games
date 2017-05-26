@@ -16,15 +16,32 @@ SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
 all: deps languages
 
-index-en:
-	mkdir -p appengine/generated/en/
-	$(SOY_COMPILER) --outputPathFormat appengine/index/generated/en/soy.js --srcs appengine/index/template.soy
-	python build-app.py index en
 
 courses-en:
 	mkdir -p appengine/generated/en/
 	$(SOY_COMPILER) --outputPathFormat appengine/courses/generated/en/soy.js --srcs appengine/courses/template.soy
 	python build-app.py courses en
+
+mazealg-en: common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/mazealg/generated/en/soy.js --srcs appengine/mazealg/template.soy
+	python build-app.py mazealg en
+
+test-en:
+	mkdir -p appengine/generated/en/
+	$(SOY_COMPILER) --outputPathFormat appengine/test/generated/en/soy.js --srcs appengine/test/template.soy
+	python build-app.py test en
+
+test-zh:
+	mkdir -p appengine/generated/zh-hant/
+	$(SOY_COMPILER) --outputPathFormat appengine/test/generated/zh-hant/soy.js --srcs appengine/test/template.soy
+	python build-app.py test zh-hant
+
+
+
+index-en:
+	mkdir -p appengine/generated/en/
+	$(SOY_COMPILER) --outputPathFormat appengine/index/generated/en/soy.js --srcs appengine/index/template.soy
+	python build-app.py index en
 
 puzzle-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/puzzle/generated/en/soy.js --srcs appengine/puzzle/template.soy

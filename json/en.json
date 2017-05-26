@@ -227,5 +227,6 @@
 	"Pond.rabbitName": "Rabbit",
 	"Pond.counterName": "Counter",
 	"Pond.rookName": "Rook",
-	"Pond.sniperName": "Sniper"
+	"Pond.sniperName": "Sniper",
+	"Test.helloWorld": "Hello World!!!!!!"
 }

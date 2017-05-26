@@ -39,6 +39,7 @@ BlocklyInterface.editor = null;
 
 /**
  * Common startup tasks for all apps.
+ * @suppress {checkVars}
  */
 BlocklyInterface.init = function() {
   BlocklyGames.init();

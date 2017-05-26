@@ -34,6 +34,25 @@ handlers:
   static_dir: courses
   secure: always
 
+# Mazealg app.
+- url: /mazealg
+  static_files: mazealg.html
+  upload: mazealg\.html
+  secure: always
+- url: /mazealg/
+  static_dir: mazealg
+  secure: always
+
+# Test app.
+- url: /test
+  static_files: test.html
+  upload: test\.html
+  secure: always
+- url: /test/
+  static_dir: test
+  secure: always
+
+
 # About page.
 - url: /about
   static_files: about.html

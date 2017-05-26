@@ -348,6 +348,7 @@ BlocklyDialogs.abortOffer = function() {
 /**
  * Congratulates the user for completing the level and offers to
  * direct them to the next level, if available.
+ * @suppress {checkVars}
  */
 BlocklyDialogs.congratulations = function() {
   var content = document.getElementById('dialogDone');

@@ -402,6 +402,7 @@ Blockly.Blocks['genetics_sex'] = {
  * Defines the JavaScript generation for sex.
  * @param {Blockly.Block} block
  * @return {!Array.<string|number>}
+ * @suppress {checkVars}
  */
 Blockly.JavaScript['genetics_sex'] = function(block) {
   // Generate JavaScript for getting sex enum.
