@@ -52,6 +52,16 @@ handlers:
   static_dir: test
   secure: always
 
+# shop game.
+- url: /shop
+  static_files: shop/shop.html
+  upload: shop\.html
+  secure: always
+- url: /shop/
+  static_dir: shop
+  secure: always
+
+
 
 # About page.
 - url: /about

@@ -4,7 +4,7 @@
 
 USER_APPS = {index,courses,puzzle,maze,bird,turtle,movie,pond/docs,pond/tutor,pond/duck}
 ALL_JSON = {./,index,courses,puzzle,maze,bird,turtle,movie,pond/docs,pond,pond/tutor,pond/duck}
-ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/template.soy,appengine/courses/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy
+ALL_TEMPLATES = appengine/template.soy,appengine/index/template.soy,appengine/template.soy,appengine/courses/template.soy,appengine/puzzle/template.soy,appengine/maze/template.soy,appengine/bird/template.soy,appengine/turtle/template.soy,appengine/movie/template.soy,appengine/pond/docs/template.soy,appengine/pond/template.soy,appengine/pond/tutor/template.soy,appengine/pond/duck/template.soy,appengine/shop/template.soy
 
 APP_ENGINE_THIRD_PARTY = appengine/third-party
 SOY_COMPILER = java -jar third-party/SoyToJsSrcCompiler.jar --shouldProvideRequireSoyNamespaces --isUsingIjData
@@ -16,6 +16,8 @@ SOY_EXTRACTOR = java -jar third-party/SoyMsgExtractor.jar
 
 all: deps languages
 
+common-zh:
+	$(SOY_COMPILER) --outputPathFormat appengine/generated/zh-hant/soy.js --srcs appengine/template.soy
 
 courses-en:
 	mkdir -p appengine/generated/en/
@@ -26,15 +28,50 @@ mazealg-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/mazealg/generated/en/soy.js --srcs appengine/mazealg/template.soy
 	python build-app.py mazealg en
 
-test-en:
-	mkdir -p appengine/generated/en/
+test-en: common-en
 	$(SOY_COMPILER) --outputPathFormat appengine/test/generated/en/soy.js --srcs appengine/test/template.soy
 	python build-app.py test en
 
-test-zh:
-	mkdir -p appengine/generated/zh-hant/
+test-zh: common-zh
 	$(SOY_COMPILER) --outputPathFormat appengine/test/generated/zh-hant/soy.js --srcs appengine/test/template.soy
 	python build-app.py test zh-hant
+
+test: test-en test-zh
+
+shop-en: common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/shop/generated/en/soy.js --srcs appengine/shop/template.soy
+	python build-app.py shop en
+
+# shop-zh: common-zh
+# 	$(eval TEMPLATE := appengine/shop/template.soy)
+# 	$(SOY_COMPILER) --outputPathFormat appengine/shop/generated/zh-hant/soy.js --srcs $(TEMPLATE)
+# 	python build-app.py shop zh-hant
+
+extract-msgs:
+	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)
+	i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
+
+shop-en: extract-msgs
+	$(eval APP := shop)
+	$(eval LANG := zh-hant)
+	$(eval TEMPLATE := appengine/$(APP)/template.soy)
+	mkdir -p appengine/$(APP)/generated
+	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
+	python build-app.py $(APP) $(LANG)
+
+shop-zh: extract-msgs
+	$(eval APP := shop)
+	$(eval LANG := zh-hant)
+	$(eval TEMPLATE := appengine/$(APP)/template.soy)
+	mkdir -p appengine/$(APP)/generated
+	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
+	python build-app.py $(APP) $(LANG)
+
+shop: shop-en shop-zh
+
+maze-zh: common-zh
+	$(SOY_COMPILER) --outputPathFormat appengine/maze/generated/zh-hant/soy.js --srcs appengine/maze/template.soy
+	python build-app.py maze zh-hant
 
 
 

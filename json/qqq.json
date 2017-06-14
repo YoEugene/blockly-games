@@ -221,5 +221,9 @@
 	"Pond.rabbitName": "Name for a player that runs like a rabbit.\n{{Identical|Rabbit}}",
 	"Pond.counterName": "Name for a player that counts methodically.\n{{Identical|Counter}}",
 	"Pond.rookName": "Name for a player that behaves like a rook (castle) in chess.\n{{Identical|Rook}}",
-	"Pond.sniperName": "Name for a player that hides in a corner and shoots.\n{{Identical|Sniper}}"
+	"Pond.sniperName": "Name for a player that hides in a corner and shoots.\n{{Identical|Sniper}}",
+	"DrinkShop.getCup": "block",
+	"DrinkShop.fillCup": "block",
+	"DrinkShop.coverCup": "block",
+	"Games.shop": "Drink Shop"
 }

@@ -8,6 +8,8 @@ All code is free and open source.
 
 **The developer's site is at https://github.com/google/blockly-games/wiki**
 
+# Development
+
 ## 基本開發流程
 * 官方wiki(務必閱讀): https://github.com/google/blockly-games/wiki
 * Getting Started
@@ -26,7 +28,7 @@ All code is free and open source.
     * $ cd appengine
     * $ gcloud app deploy
 
-## 被修改的blockly-games的code
+## 被修改的blockly-games的code，最好之後能改回來
 * appengine/js/lib-dialogs.js:351
     * Add `* @suppress {checkVars}`
 * appengine/js/lib-interface.js:42
@@ -35,7 +37,14 @@ All code is free and open source.
 * appengine/genetics/js/blocks.js:405
     * Add `* @suppress {checkVars}`
 * appengine/common/boot.js
-    * change false to true
+    * line 64-73: change false to true
+    * to make debug mode default
+    * Problem: 在非debug mode會讀取compressed.js，在壓縮時會把變數和物件屬性名稱改掉，造成以下bug:
+        * `Uncaught Error: Error when registering mutator "controls_if_mutator": missing required property "domToMutation"`
+* appengine/third-party/blockly/blocks/text.js
+    * line 30: add `goog.require('Blockly');`
+    * to fix Uncaught TypeError: Blockly.defineBlocksWithJsonArray is not a function
+
 
 ## Maze
 * 每次進入新關卡時，會透過url傳入level，maze.js裡會根據level拿相應的地圖和設置
@@ -102,13 +111,51 @@ All code is free and open source.
 * 為了i18n, block的文字不直接定義在js裡，而是用一個key，然後在Template.soy裡面定義key對應到en.json裡的文字
 
 ## i18n
-* message: 所有會用到的文字，都稱為massage, msg
-* /json/xx.json: blockly games 用到的文字
-    * workflow:
-        1. 在 /json/xx.js 定義文字
-        2. 在template.soy 開一個 messages 區塊，引入文字
-        3. 在blocks.js裡抓取 template.soy 裡面的message
-    * 總之必須靠 template.soy 銜接 blocks.js and xx.js
+* Google Closure Template 的 translation/localization/i18n 的基本運作方式
+    * 詳細請參考 https://developers.google.com/closure/templates/docs/translation
+    * steps:
+        1. 在 .soy file 中把要翻譯的字用{msg}包住，被包住的字應該要是預設語言（例如英文）顯示的文字
+            * 例如 `{msg meaning="Maze.moveForward" desc="block text - Imperative or infinitive of a verb for a person moving (walking) in the direction he/she is facing."}move forward{/msg}`
+        2. 用 SoyMsgExtractor.jar 將所有 msg 抽取出來成為 extracted_msgs.xlf 檔案
+        3. 將 .xlf 翻譯後存成 translated_extracted_msgs.xlf 檔案
+        4. 用 SoyToJsSrcCompiler.jar 讀取 translated_extracted_msgs.xlf 及原本的 .soy file，輸出翻譯後的 .js 檔案
+
+* blockly-games 裡的 translation/localization/i18n 的運作方式
+    * 基本跟前述的差不多，差別是在這裡我們會把 extracted_msgs.xlf 再轉換成 .json，然後翻譯這個 json file，然後讀取翻譯好的 json file 和 template.soy 輸出成 soy.js。
+    * 我們可以跳過 extract msg 的步驟，直接寫翻譯好的 json 然後讀取即可。
+    * 可以看看 Makefile 的 shop-zh 怎麼寫
+    * 注意 json/en.json 預設是會被覆蓋掉的，因為 template.soy 裡面的 msg 寫的就是英文，所以不必修改 json/en.json
+    *
+    * steps: (make shop-zh)
+        1. 抽取 msg 並輸出成 json/en.json, json/keys.json, json/qqq.json (descriptions)
+            ```
+            $(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)
+	        i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
+            ```
+        2. 把 json 轉換回 xlf 並用於 template.soy ，輸出 appengine/shop/generated/zh-hant/msg.js and soy.js
+            `i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json`
+        3. 壓縮 js
+            `python build-app.py $(APP) $(LANG)`
+
+* 自定義的 block 內文字 的 i18n 方法
+    * 總之必須靠 template.soy 銜接 blocks.js and en.json (or zh-hant.json)
+    * 看原作的template.soy怎麼寫就跟著寫即可
+    * steps:
+        1. 在 json/<language>.json 定義文字
+            例如在 `json/zh-hant.json` 加入 `"DrinkShop.getCup": "拿取杯子",`
+        2. 在template.soy 開一個 messages 區塊，引入 xx.json 裡的key ，並寫下英文版的正確用語
+            例如在 `appengine/shop/template.soy` 加入
+            ```
+            {template .messages}
+                {call BlocklyGames.soy.messages /}
+                <div style="display: none">
+                    <span id="DrinkShop_getCup">{msg meaning="DrinkShop.getCup" desc="block text - robot get a cup"}get a cup{/msg}</span>
+                    <span id="DrinkShop_fillCup">{msg meaning="DrinkShop.fillCup" desc="block text"}fill the cup{/msg}</span>
+                    <span id="DrinkShop_coverCup">{msg meaning="DrinkShop.coverCup" desc="block test"}cover the cup{/msg}</span>
+                </div>
+            {/template}
+            ```
+        3. 在blocks.js裡抓取 template.soy 裡面的message 的 span 的 id
 
 * /appengine/third-party/msg/js/xx.js: 通用block內部顯示的文字
     * e.g. ```Blockly.Msg.CONTROLS_REPEAT_TITLE = "repeat %1 times";```
@@ -153,7 +200,7 @@ All code is free and open source.
 ## 儲存 blocks
 * 在過關時執行以下code
     ```js
-    
+
     ```
 * template.soy 裡面必須有
     ```
@@ -171,6 +218,14 @@ All code is free and open source.
     ```
     可以從local storage拿積木
 
+# Debug
+
+* browser console: `Uncaught Error: Error when registering mutator "controls_if_mutator": missing required property "domToMutation"`
+    * 只要用dubug mode即可
+    * 原因請參考本文件中 `被修改的blockly-games的code` 的部分
+* `Uncaught TypeError: Blockly.defineBlocksWithJsonArray is not a function at text.js:43`
+    * add `goog.require('Blockly');` in appengine/third-party/blockly/blocks/text.js :line 30
+    * make the app again
 
 
 
@@ -188,3 +243,6 @@ All code is free and open source.
 # Done
 * 總之先把各種積木嵌進去，別管code漂不漂亮
 * 嘗試讓積木可以寫在一個地方，並被多個關卡或遊戲存取
+
+# Production
+* 注意要換回compressed mode (not debug mode)

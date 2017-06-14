@@ -232,5 +232,10 @@
 	"Pond.rabbitName": "兔子",
 	"Pond.counterName": "計數器",
 	"Pond.rookName": "車",
-	"Pond.sniperName": "狙擊手"
+	"Pond.sniperName": "狙擊手",
+
+	"Games.shop": "飲料店",
+	"DrinkShop.getCup": "拿取杯子",
+	"DrinkShop.fillCup": "在杯中裝滿紅茶",
+	"DrinkShop.coverCup": "蓋上蓋子"
 }
