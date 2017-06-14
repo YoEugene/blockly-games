@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-06-14 02:44:42.468425",
+		"lastupdated": "2017-06-14 20:49:26.997211",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -229,7 +229,12 @@
 	"Pond.rookName": "Rook",
 	"Pond.sniperName": "Sniper",
 	"DrinkShop_getCup": "get a cup",
-	"DrinkShop_fillCup": "fill the cup",
+	"DrinkShop_fillCupWith": "fill the cup with",
 	"DrinkShop_coverCup": "cover the cup",
-	"Games.shop": "Drink Shop"
+	"DrinkShop_serve": "serve the cup",
+	"DrinkShop_blackTea": "black tea",
+	"DrinkShop_greenTea": "green tea",
+	"Games.shop": "Drink Shop",
+	"DrinkShop_runTooltip": "Makes the robot do what the blocks say.",
+	"DrinkShop_resetTooltip": "Undo what the robot has done."
 }

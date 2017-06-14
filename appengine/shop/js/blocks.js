@@ -53,25 +53,6 @@ Scope_Blocks.LOGIC_HUE = 210;
 
 // Extensions to Blockly's language and JavaScript generator.
 
-Blockly.Blocks['test_helloWorld'] = {
-  init: function() {
-    this.jsonInit({
-      "message0": BlocklyGames.getMsg('Test_helloWorld'),
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Scope_Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('Test_helloWorld')  // Test_helloWorldToolTip
-    });
-  }
-};
-
-Blockly.JavaScript['test_helloWorld'] = function(block) {
-  // Generate JavaScript for moving forward.
-  // return 'window.alert(\'Hello World!\');\n';
-  return 'alert(\'Hello World!\');\n';
-  // return 'console.log(\'Hello World!\');\n';
-};
-
 Blockly.Blocks['DrinkShop_getCup'] = {
   init: function() {
     this.jsonInit({
@@ -79,30 +60,44 @@ Blockly.Blocks['DrinkShop_getCup'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Scope_Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('DrinkShop_getCup')  // Test_helloWorldToolTip
+      "tooltip": BlocklyGames.getMsg('DrinkShop_getCup')
     });
   }
 }
 Blockly.JavaScript['DrinkShop_getCup'] = function(block) {
   // return 'robot.getCup();\n';
-  return 'alert(\'Hello World!\');\n';
+  return 'getCup();\n';
+  // return 'window.alert(\'Hello World!\');\n';
+  // return 'console.log(\'Hello World!\');\n';
 };
 
-Blockly.Blocks['DrinkShop_fillCup'] = {
+Blockly.Blocks['DrinkShop_fillCupWith'] = {
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.getMsg('DrinkShop_fillCup'),
+      "message0": BlocklyGames.getMsg('DrinkShop_fillCupWith') + " %1",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "drink_dropdown",
+          "options": [
+            [ BlocklyGames.getMsg('DrinkShop_blackTea'), "black tea" ],
+            [ BlocklyGames.getMsg('DrinkShop_greenTea'), "green tea" ],
+          ]
+        }
+      ],
       "previousStatement": null,
       "nextStatement": null,
       "colour": Scope_Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('DrinkShop_fillCup')  // Test_helloWorldToolTip
+      "tooltip": BlocklyGames.getMsg('DrinkShop_fillCupWith'),
     });
   }
 }
-Blockly.JavaScript['DrinkShop_fillCup'] = function(block) {
-  // return 'robot.fillCup();\n';
-  return 'alert(\'Hello World!\');\n';
+Blockly.JavaScript['DrinkShop_fillCupWith'] = function(block) {
+  var drink_str = block.getFieldValue('drink_dropdown');
+  // var value_drink_str = Blockly.JavaScript.valueToCode(block, 'drink_str', Blockly.JavaScript.ORDER_ATOMIC);
 
+  return 'fillCupWith("' + drink_str + '");\n';
+  // return 'window.alert("' + drink_str + '");\n';
 };
 
 Blockly.Blocks['DrinkShop_coverCup'] = {
@@ -112,11 +107,27 @@ Blockly.Blocks['DrinkShop_coverCup'] = {
       "previousStatement": null,
       "nextStatement": null,
       "colour": Scope_Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('DrinkShop_coverCup')  // Test_helloWorldToolTip
+      "tooltip": BlocklyGames.getMsg('DrinkShop_coverCup')
     });
   }
 }
 Blockly.JavaScript['DrinkShop_coverCup'] = function(block) {
-  // return 'robot.coverCup();\n';
-  return 'alert(\'Hello World!\');\n';
+  return 'coverCup();\n';
+  // return 'window.alert(\'Hello World!\');\n';
+};
+
+Blockly.Blocks['DrinkShop_serve'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('DrinkShop_serve'),
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Scope_Blocks.MOVEMENT_HUE,
+      "tooltip": BlocklyGames.getMsg('DrinkShop_serve')
+    });
+  }
+}
+Blockly.JavaScript['DrinkShop_serve'] = function(block) {
+  return 'serve();\n';
+  // return 'window.alert(\'Hello World!\');\n';
 };

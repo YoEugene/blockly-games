@@ -218,6 +218,23 @@ All code is free and open source.
     ```
     可以從local storage拿積木
 
+## js interpreter
+* [JS-Interpreter Documentation](https://neil.fraser.name/software/JS-Interpreter/docs.html)
+* 將 function 變為 interpreter 內 global 的方法：
+    * 直接綁定
+        `interpreter.setProperty(scope, 'getCup', interpreter.createNativeFunction(Scope.Game.robot.getCup));`
+    * 包成新function後綁定
+        ```
+        var wrapper
+
+        wrapper = function(id) {
+            Maze.move(0, id.toString());
+        };
+        interpreter.setProperty(scope, 'moveForward',
+            interpreter.createNativeFunction(wrapper));
+        ```
+
+
 # Debug
 
 * browser console: `Uncaught Error: Error when registering mutator "controls_if_mutator": missing required property "domToMutation"`
@@ -227,6 +244,9 @@ All code is free and open source.
     * add `goog.require('Blockly');` in appengine/third-party/blockly/blocks/text.js :line 30
     * make the app again
 
+
+# Docs
+* [JS-Interpreter Documentation](https://neil.fraser.name/software/JS-Interpreter/docs.html)
 
 
 # Problems to Solve

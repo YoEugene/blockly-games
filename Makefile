@@ -57,13 +57,13 @@ shop-en: common-en
 
 shop-i18n-en: extract-msgs
 	$(eval APP := shop)
-	$(eval LANG := zh-hant)
+	$(eval LANG := en)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)
 	mkdir -p appengine/$(APP)/generated
 	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
 	python build-app.py $(APP) $(LANG)
 
-shop-zh: extract-msgs
+shop-i18n-zh: extract-msgs
 	$(eval APP := shop)
 	$(eval LANG := zh-hant)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)

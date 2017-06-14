@@ -26,8 +26,8 @@
 	"Games.linkTooltip": "儲存積木組並提供連結。",
 	"Games.runTooltip": "執行您寫的程式。",
 	"Games.runProgram": "執行程式",
-	"Games.resetTooltip": "停止程式並重設關卡。",
-	"Games.resetProgram": "重設",
+	"Games.resetTooltip": "停止程式並重新開始關卡。",
+	"Games.resetProgram": "重新開始",
 	"Games.help": "幫助",
 	"Games.dialogOk": "確定",
 	"Games.dialogCancel": "取消",
@@ -236,6 +236,11 @@
 
 	"Games.shop": "飲料店",
 	"DrinkShop_getCup": "拿取杯子",
-	"DrinkShop_fillCup": "在杯中裝滿紅茶",
-	"DrinkShop_coverCup": "蓋上蓋子"
+	"DrinkShop_fillCupWith": "在杯中裝滿",
+	"DrinkShop_coverCup": "蓋上蓋子",
+	"DrinkShop_serve": "將杯子交給客人",
+	"DrinkShop_blackTea": "紅茶",
+	"DrinkShop_greenTea": "綠茶",
+	"DrinkShop_runTooltip": "讓機器人執行我們寫的程式",
+	"DrinkShop_resetTooltip": "重新開始這一關"
 }

@@ -1,6 +1,5 @@
 /**
- * Blockly Games: Test
- * A template for building a new app.
+ * Blockly Games: Drink Shop
  */
 
 goog.provide('Shop');
@@ -10,6 +9,7 @@ goog.require('BlocklyDialogs');
 goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Shop.Blocks');
+goog.require('Shop.Game');
 goog.require('Shop.soy');
 
 BlocklyGames.NAME = 'shop';
@@ -26,7 +26,6 @@ BlocklyInterface.nextLevel = function() {
     BlocklyInterface.indexPage();
   }
 };
-
 
 /**
  * Initialize Blockly and the game.  Called on page load.
@@ -58,7 +57,7 @@ Scope.init = function() {
   onresize();
 
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3;
+  var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3; // 1.3 ~ 1
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
     //    'maxBlocks': Maze.MAX_BLOCKS,
@@ -66,6 +65,7 @@ Scope.init = function() {
        'toolbox': toolbox,
        'trashcan': true,
        'zoom': {'startScale': scale}});
+
 //   BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
 //   BlocklyGames.workspace.loadAudio_(Maze.SKIN.crashSound, 'fail');
 //   Not really needed, there are no user-defined functions or variables.
@@ -80,7 +80,7 @@ Scope.init = function() {
 //   BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity()});
 
   BlocklyGames.bindClick('runButton', Scope.runButtonClick);
-  // BlocklyGames.bindClick('resetButton', Maze.resetButtonClick);
+  BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -98,65 +98,18 @@ Scope.init = function() {
 //  */
 Scope.initInterpreter = function(interpreter, scope) {
 //   // API
-//   var wrapper;
+  var wrapper;
 //   wrapper = function(id) {
 //     Maze.move(0, id.toString());
 //   };
 //   interpreter.setProperty(scope, 'moveForward',
 //       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     Maze.move(2, id.toString());
-//   };
-//   interpreter.setProperty(scope, 'moveBackward',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     Maze.turn(0, id.toString());
-//   };
-//   interpreter.setProperty(scope, 'turnLeft',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     Maze.turn(1, id.toString());
-//   };
-//   interpreter.setProperty(scope, 'turnRight',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     return interpreter.createPrimitive(Maze.isPath(0, id.toString()));
-//   };
-//   interpreter.setProperty(scope, 'isPathForward',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     return interpreter.createPrimitive(Maze.isPath(1, id.toString()));
-//   };
-//   interpreter.setProperty(scope, 'isPathRight',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     return interpreter.createPrimitive(Maze.isPath(2, id.toString()));
-//   };
-//   interpreter.setProperty(scope, 'isPathBackward',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function(id) {
-//     return interpreter.createPrimitive(Maze.isPath(3, id.toString()));
-//   };
-//   interpreter.setProperty(scope, 'isPathLeft',
-//       interpreter.createNativeFunction(wrapper));
-//   wrapper = function() {
-//     return interpreter.createPrimitive(Maze.notDone());
-//   };
-//   interpreter.setProperty(scope, 'notDone',
-//       interpreter.createNativeFunction(wrapper));
 
-  // wrapper = function() {
-  //   return interpreter.createPrimitive(window.alert('wrapper'));
-  // };
-  // interpreter.setProperty(scope, 'alert',
-  //     interpreter.createNativeFunction(wrapper));
+  interpreter.setProperty(scope, 'getCup', interpreter.createNativeFunction(Scope.Game.robot.getCup));
+  interpreter.setProperty(scope, 'fillCupWith', interpreter.createNativeFunction(Scope.Game.robot.fillCupWith));
+  interpreter.setProperty(scope, 'coverCup', interpreter.createNativeFunction(Scope.Game.robot.coverCup));
+  interpreter.setProperty(scope, 'serve', interpreter.createNativeFunction(Scope.Game.robot.serve));
 
-  var wrapper = function(text) {
-    text = text ? text.toString() : '';
-    return interpreter.createPrimitive(window.alert(text));
-  };
-  interpreter.setProperty(scope, 'alert',
-      interpreter.createNativeFunction(wrapper));
 };
 
 /**
@@ -171,10 +124,10 @@ Scope.execute = function() {
 
   // Maze.log = [];
   var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
+  console.log(code);
   // Maze.result = Maze.ResultType.UNSET;
   var interpreter = new Interpreter(code, Scope.initInterpreter);
 
-  // console.log(code);
 
   // try {
   //   eval(code);
@@ -248,8 +201,10 @@ Scope.execute = function() {
   // // Reset the maze and animate the transcript.
   // Maze.reset(false);
   // Maze.pidList.push(setTimeout(Maze.animate, 100));
-  BlocklyInterface.saveToLocalStorage();
-  BlocklyDialogs.congratulations();
+  if (Scope.Game.isLevelDone(1)) {
+    BlocklyInterface.saveToLocalStorage();
+    BlocklyDialogs.congratulations();
+  }
 };
 
 /**
@@ -271,17 +226,33 @@ Scope.runButtonClick = function(e) {
   //   Maze.levelHelp();
   //   return;
   // }
-  // var runButton = document.getElementById('runButton');
-  // var resetButton = document.getElementById('resetButton');
-  // // Ensure that Reset button is at least as wide as Run button.
-  // if (!resetButton.style.minWidth) {
-  //   resetButton.style.minWidth = runButton.offsetWidth + 'px';
-  // }
-  // runButton.style.display = 'none';
-  // resetButton.style.display = 'inline';
+  var runButton = document.getElementById('runButton');
+  var resetButton = document.getElementById('resetButton');
+  // Ensure that Reset button is at least as wide as Run button.
+  if (!resetButton.style.minWidth) {
+    resetButton.style.minWidth = runButton.offsetWidth + 'px';
+  }
+  runButton.style.display = 'none';
+  resetButton.style.display = 'inline';
   // BlocklyGames.workspace.traceOn(true);
-  // Maze.reset(false);
+  Scope.Game.reset();
   Scope.execute();
+};
+
+/**
+ * Click the reset button.  Reset the maze.
+ * @param {!Event} e Mouse or touch event.
+ */
+Scope.resetButtonClick = function(e) {
+  // Prevent double-clicks or double-taps.
+  if (BlocklyInterface.eventSpam(e)) {
+    return;
+  }
+  document.getElementById('runButton').style.display = 'inline';
+  document.getElementById('resetButton').style.display = 'none';
+  // BlocklyGames.workspace.traceOn(false);
+  Scope.Game.reset();
+  // Maze.levelHelp();
 };
 
 
