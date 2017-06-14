@@ -228,8 +228,8 @@
 	"Pond.counterName": "Counter",
 	"Pond.rookName": "Rook",
 	"Pond.sniperName": "Sniper",
-	"DrinkShop.getCup": "get a cup",
-	"DrinkShop.fillCup": "fill the cup",
-	"DrinkShop.coverCup": "cover the cup",
+	"DrinkShop_getCup": "get a cup",
+	"DrinkShop_fillCup": "fill the cup",
+	"DrinkShop_coverCup": "cover the cup",
 	"Games.shop": "Drink Shop"
 }

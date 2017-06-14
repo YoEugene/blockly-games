@@ -51,7 +51,11 @@ extract-msgs:
 	$(SOY_EXTRACTOR) --outputFile extracted_msgs.xlf --srcs $(ALL_TEMPLATES)
 	i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
 
-shop-en: extract-msgs
+shop-en: common-en
+	$(SOY_COMPILER) --outputPathFormat appengine/shop/generated/en/soy.js --srcs appengine/shop/template.soy
+	python build-app.py shop en
+
+shop-i18n-en: extract-msgs
 	$(eval APP := shop)
 	$(eval LANG := zh-hant)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)
