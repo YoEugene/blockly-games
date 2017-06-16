@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-06-16 08:27:02.809568",
+		"lastupdated": "2017-06-16 08:58:17.901362",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -234,6 +234,11 @@
 	"DrinkShop_serve": "serve the cup",
 	"DrinkShop_blackTea": "black tea",
 	"DrinkShop_greenTea": "green tea",
+	"DrinkShop_msg_noServedDrink": "The customer didn't get their tea.",
+	"DrinkShop_msg_servedMultiple": "The customer received more than 1 cup of drink.",
+	"DrinkShop_msg_cupEmpty": "The cup is empty.",
+	"DrinkShop_msg_notBlackTea": "It's not black tea.",
+	"DrinkShop_msg_cupNotCovered": "The cup is not covered.",
 	"Games.shop": "Drink Shop",
 	"DrinkShop_runTooltip": "Makes the robot do what the blocks say.",
 	"DrinkShop_resetTooltip": "Undo what the robot has done."

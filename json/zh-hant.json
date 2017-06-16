@@ -242,5 +242,10 @@
 	"DrinkShop_blackTea": "紅茶",
 	"DrinkShop_greenTea": "綠茶",
 	"DrinkShop_runTooltip": "讓機器人執行我們寫的程式",
-	"DrinkShop_resetTooltip": "重新開始這一關"
+	"DrinkShop_resetTooltip": "重新開始這一關",
+	"DrinkShop_msg_noServedDrink": "客人沒有拿到飲料",
+	"DrinkShop_msg_servedMultiple": "客人拿到太多杯飲料",
+	"DrinkShop_msg_cupEmpty": "杯子是空的",
+	"DrinkShop_msg_notBlackTea": "這不是紅茶",
+	"DrinkShop_msg_cupNotCovered": "杯子沒有蓋好"
 }

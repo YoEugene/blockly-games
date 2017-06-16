@@ -68,28 +68,28 @@ Game.checkLevelDone = function(level) {
     if (robot.served.length !== 1) {
       if (robot.served.length === 0) {
         console.log("level not done: not serving any drink");
-        window.alert("The customer didn't get their tea. ☹");
+        window.alert(BlocklyGames.getMsg('DrinkShop_msg_noServedDrink'));
         return false;
       }
       if (robot.served.length > 1) {
         console.log("level not done: should serve only one cup of drink");
-        window.alert("The customer received more than 1 cup of tea. ☹");
+        window.alert(BlocklyGames.getMsg('DrinkShop_msg_servedMultiple'));
         return false;
       }
     }
     if (!robot.served[0].filled) {
-      console.log("level not done: cup not filled");
-      window.alert("The cup is empty. ☹");
+      console.log("level not done: cup empty");
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupEmpty'));
       return false;
     }
     if (robot.served[0].filled != "black tea") {
       console.log("level not done: not black tea in the cup");
-      window.alert("It's not black tea. ☹");
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_notBlackTea'));
       return false;
     }
     if (!robot.served[0].isCovered) {
       console.log("level not done: cup not covered");
-      window.alert("The cup is not covered. :(");
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupNotCovered'));
       return false;
     }
     return true;
