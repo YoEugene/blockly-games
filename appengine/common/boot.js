@@ -73,6 +73,10 @@
   var debug = true;
   script.src = appName + '/generated/' + lang +
       (debug ? '/uncompressed.js' : '/compressed.js');
+  if (appName === "shop") {
+      script.src = appName + '/public/generated/' + lang +
+      (debug ? '/uncompressed.js' : '/compressed.js');
+  }
   script.type = 'text/javascript';
   document.head.appendChild(script);
 })();

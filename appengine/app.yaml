@@ -54,13 +54,15 @@ handlers:
 
 # shop game.
 - url: /shop
-  static_files: shop/shop.html
+  static_files: shop/public/shop.html
   upload: shop\.html
   secure: always
-- url: /shop/
-  static_dir: shop
+- url: /shop/public/
+  static_dir: shop/public
   secure: always
-
+- url: /shop/js/
+  static_dir: shop/js
+  secure: always
 
 
 # About page.

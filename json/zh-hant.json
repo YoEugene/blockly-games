@@ -235,9 +235,9 @@
 	"Pond.sniperName": "狙擊手",
 
 	"Games.shop": "飲料店",
-	"DrinkShop_getCup": "拿取杯子",
+	"DrinkShop_getNewCup": "拿取一個新杯子",
 	"DrinkShop_fillCupWith": "在杯中裝滿",
-	"DrinkShop_coverCup": "蓋上蓋子",
+	"DrinkShop_coverCup": "將杯子蓋上蓋子",
 	"DrinkShop_serve": "將杯子交給客人",
 	"DrinkShop_blackTea": "紅茶",
 	"DrinkShop_greenTea": "綠茶",

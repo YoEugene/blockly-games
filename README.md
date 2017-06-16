@@ -142,14 +142,14 @@ All code is free and open source.
     * 看原作的template.soy怎麼寫就跟著寫即可
     * steps:
         1. 在 json/<language>.json 定義文字
-            例如在 `json/zh-hant.json` 加入 `"DrinkShop.getCup": "拿取杯子",`
+            例如在 `json/zh-hant.json` 加入 `"DrinkShop.getNewCup": "拿取杯子",`
         2. 在template.soy 開一個 messages 區塊，引入 xx.json 裡的key ，並寫下英文版的正確用語
             例如在 `appengine/shop/template.soy` 加入
             ```
             {template .messages}
                 {call BlocklyGames.soy.messages /}
                 <div style="display: none">
-                    <span id="DrinkShop_getCup">{msg meaning="DrinkShop.getCup" desc="block text - robot get a cup"}get a cup{/msg}</span>
+                    <span id="DrinkShop_getNewCup">{msg meaning="DrinkShop.getNewCup" desc="block text - robot get a cup"}get a cup{/msg}</span>
                     <span id="DrinkShop_fillCup">{msg meaning="DrinkShop.fillCup" desc="block text"}fill the cup{/msg}</span>
                     <span id="DrinkShop_coverCup">{msg meaning="DrinkShop.coverCup" desc="block test"}cover the cup{/msg}</span>
                 </div>
@@ -200,7 +200,7 @@ All code is free and open source.
 ## 儲存 blocks
 * 在過關時執行以下code
     ```js
-
+    BlocklyInterface.saveToLocalStorage();
     ```
 * template.soy 裡面必須有
     ```
@@ -222,7 +222,7 @@ All code is free and open source.
 * [JS-Interpreter Documentation](https://neil.fraser.name/software/JS-Interpreter/docs.html)
 * 將 function 變為 interpreter 內 global 的方法：
     * 直接綁定
-        `interpreter.setProperty(scope, 'getCup', interpreter.createNativeFunction(Scope.Game.robot.getCup));`
+        `interpreter.setProperty(scope, 'getNewCup', interpreter.createNativeFunction(Scope.Game.robot.getNewCup));`
     * 包成新function後綁定
         ```
         var wrapper
@@ -233,7 +233,13 @@ All code is free and open source.
         interpreter.setProperty(scope, 'moveForward',
             interpreter.createNativeFunction(wrapper));
         ```
+## Animation
+### Maze的動畫的原理
+* 先用 js interpreter 跑過 code，跑的途中把動作及block id記錄下來（push進Maze.log = []）
+* 用 SetTimeout 依序讀取 Maze.log ，做出對應的動作，並 highlight block (用積木id)
 
+### realtime的執行及動畫
+* 用 setTimeout interpreter.step()
 
 # Debug
 
@@ -255,10 +261,12 @@ All code is free and open source.
 * 如何把generator隔離開，並支援多種語言（執行時還是用JavaScript，但也許能compile成Python讓學生學習）
 
 # TODO
-* 嘗試製作一個新遊戲
 * toolbox的內容寫在 js 裡，不寫在template.soy裡
 * 帳號系統
 * Code 儲存
+* UI animation
+* UI.workspace.cup, UI.workspace.cupCover, ...
+* UI: serve cup to customer
 
 # Done
 * 總之先把各種積木嵌進去，別管code漂不漂亮
@@ -266,3 +274,4 @@ All code is free and open source.
 
 # Production
 * 注意要換回compressed mode (not debug mode)
+* 目前shop/js 之下的東西都是可以直接 access的，之後換回compressed mode 後要禁止。在app.yaml設定

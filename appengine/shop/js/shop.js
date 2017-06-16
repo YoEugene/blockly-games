@@ -47,7 +47,7 @@ Scope.init = function() {
     var top = visualization.offsetTop;
     blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
     blocklyDiv.style.left = rtl ? '10px' : '420px';
-    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+    blocklyDiv.style.width = (window.innerWidth - 430) + 'px';
   };
   window.addEventListener('scroll', function() {
     onresize();
@@ -79,6 +79,8 @@ Scope.init = function() {
 //   Maze.reset(true);
 //   BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity()});
 
+  Scope.Game.init();
+
   BlocklyGames.bindClick('runButton', Scope.runButtonClick);
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
@@ -105,11 +107,11 @@ Scope.initInterpreter = function(interpreter, scope) {
 //   interpreter.setProperty(scope, 'moveForward',
 //       interpreter.createNativeFunction(wrapper));
 
-  interpreter.setProperty(scope, 'getCup', interpreter.createNativeFunction(Scope.Game.robot.getCup));
-  interpreter.setProperty(scope, 'fillCupWith', interpreter.createNativeFunction(Scope.Game.robot.fillCupWith));
-  interpreter.setProperty(scope, 'coverCup', interpreter.createNativeFunction(Scope.Game.robot.coverCup));
-  interpreter.setProperty(scope, 'serve', interpreter.createNativeFunction(Scope.Game.robot.serve));
-
+  var commandNames = Object.keys(Scope.Game.commands);
+  console.log(commandNames);
+  commandNames.map(function(commandName) {
+    interpreter.setProperty(scope, commandName, interpreter.createNativeFunction(Scope.Game.commands[commandName]));
+  });
 };
 
 /**
@@ -135,29 +137,9 @@ Scope.execute = function() {
   //   alert(e);
   // }
 
-  interpreter.run();
-  // interpreter.step();
+  // interpreter.run();
 
-  // try {
-  //   var ticks = 10000;
-  //   while (interpreter.step()) {
-  //     if (ticks-- == 0) {
-  //       throw Infinity;
-  //     }
-  //   }
-  // } catch (e) {
-  // //   // A boolean is thrown for normal termination.
-  // //   // Abnormal termination is a user error.
-  // //   if (e === Infinity) {
-  // //     Maze.result = Maze.ResultType.TIMEOUT;
-  // //   } else if (e === false) {
-  // //     Maze.result = Maze.ResultType.ERROR;
-  // //   } else {
-  // //     // Syntax error, can't happen.
-  // //     Maze.result = Maze.ResultType.ERROR;
-  // //     alert(e);
-  // //   }
-  // }
+  Scope.interpretCode(interpreter);
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
@@ -201,11 +183,25 @@ Scope.execute = function() {
   // // Reset the maze and animate the transcript.
   // Maze.reset(false);
   // Maze.pidList.push(setTimeout(Maze.animate, 100));
-  if (Scope.Game.isLevelDone(1)) {
-    BlocklyInterface.saveToLocalStorage();
-    BlocklyDialogs.congratulations();
-  }
 };
+
+Scope.interpretCode = function(interpreter) {
+  console.log(interpreter);
+
+  if(interpreter.step()) {
+    setTimeout(function() {
+      Scope.interpretCode(interpreter);
+    }, 100);
+  }
+  else {
+    setTimeout(function() {
+      if (Scope.Game.checkLevelDone(BlocklyGames.LEVEL)) {
+        BlocklyInterface.saveToLocalStorage();
+        BlocklyDialogs.congratulations();
+      }
+    }, 100);
+  }
+}
 
 /**
  * Click the run button.  Start the program.

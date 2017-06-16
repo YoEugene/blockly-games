@@ -53,20 +53,20 @@ Scope_Blocks.LOGIC_HUE = 210;
 
 // Extensions to Blockly's language and JavaScript generator.
 
-Blockly.Blocks['DrinkShop_getCup'] = {
+Blockly.Blocks['DrinkShop_getNewCup'] = {
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.getMsg('DrinkShop_getCup'),
+      "message0": BlocklyGames.getMsg('DrinkShop_getNewCup'),
       "previousStatement": null,
       "nextStatement": null,
       "colour": Scope_Blocks.MOVEMENT_HUE,
-      "tooltip": BlocklyGames.getMsg('DrinkShop_getCup')
+      "tooltip": BlocklyGames.getMsg('DrinkShop_getNewCup')
     });
   }
 }
-Blockly.JavaScript['DrinkShop_getCup'] = function(block) {
-  // return 'robot.getCup();\n';
-  return 'getCup();\n';
+Blockly.JavaScript['DrinkShop_getNewCup'] = function(block) {
+  // return 'robot.getNewCup();\n';
+  return 'getNewCup();\n';
   // return 'window.alert(\'Hello World!\');\n';
   // return 'console.log(\'Hello World!\');\n';
 };

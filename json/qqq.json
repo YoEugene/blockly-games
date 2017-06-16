@@ -222,7 +222,7 @@
 	"Pond.counterName": "Name for a player that counts methodically.\n{{Identical|Counter}}",
 	"Pond.rookName": "Name for a player that behaves like a rook (castle) in chess.\n{{Identical|Rook}}",
 	"Pond.sniperName": "Name for a player that hides in a corner and shoots.\n{{Identical|Sniper}}",
-	"DrinkShop_getCup": "block text - robot gets a cup",
+	"DrinkShop_getNewCup": "block text - robot gets a cup",
 	"DrinkShop_fillCupWith": "block text - robot fills the cup with drink",
 	"DrinkShop_coverCup": "block test - robot covers the cup",
 	"DrinkShop_serve": "block test - robot serves what it is holding",

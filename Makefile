@@ -52,26 +52,39 @@ extract-msgs:
 	i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates $(ALL_TEMPLATES)
 
 shop-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/shop/generated/en/soy.js --srcs appengine/shop/template.soy
-	python build-app.py shop en
+	mkdir -p appengine/$(APP)/public/generated
+	$(SOY_COMPILER) --outputPathFormat appengine/shop/public/generated/en/soy.js --srcs appengine/shop/template.soy
+	python build-app-public.py shop en
 
 shop-i18n-en: extract-msgs
 	$(eval APP := shop)
 	$(eval LANG := en)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)
-	mkdir -p appengine/$(APP)/generated
-	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
-	python build-app.py $(APP) $(LANG)
+	mkdir -p appengine/$(APP)/public/generated
+	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
+	python build-app-public.py $(APP) $(LANG)
 
 shop-i18n-zh: extract-msgs
 	$(eval APP := shop)
 	$(eval LANG := zh-hant)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)
-	mkdir -p appengine/$(APP)/generated
-	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
-	python build-app.py $(APP) $(LANG)
+	mkdir -p appengine/$(APP)/public/generated
+	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
+	python build-app-public.py $(APP) $(LANG)
 
-shop: shop-en shop-zh
+shop: extract-msgs
+	$(eval APP := shop)
+	$(eval TEMPLATE := appengine/$(APP)/template.soy)
+	mkdir -p appengine/$(APP)/public/generated
+
+	$(eval LANG := en)
+	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
+	python build-app-public.py $(APP) $(LANG)
+
+	$(eval LANG := zh-hant)
+	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
+	python build-app-public.py $(APP) $(LANG)
+
 
 maze-zh: common-zh
 	$(SOY_COMPILER) --outputPathFormat appengine/maze/generated/zh-hant/soy.js --srcs appengine/maze/template.soy

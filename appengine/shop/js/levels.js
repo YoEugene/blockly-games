@@ -10,6 +10,6 @@ Shop.Levels = [
   // Level 1
   {
     maxBlocks: 3,
-    blocks: ['DrinkShop_getCup', 'DrinkShop_fillCupWith', 'DrinkShop_serve']
+    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWith', 'DrinkShop_serve']
   }
 ];

@@ -353,6 +353,6 @@ BlocklyGames.importAnalytics = function() {
   script.src = '//www.google-analytics.com/analytics.js';
   document.head.appendChild(script);
 
-  gaObject('create', 'UA-50448074-1', 'auto');
+  gaObject('create', 'UA-101090572-1', 'auto'); // gsetcrw
   gaObject('send', 'pageview');
 };
