@@ -108,7 +108,6 @@ Scope.initInterpreter = function(interpreter, scope) {
 //       interpreter.createNativeFunction(wrapper));
 
   var commandNames = Object.keys(Scope.Game.commands);
-  console.log(commandNames);
   commandNames.map(function(commandName) {
     interpreter.setProperty(scope, commandName, interpreter.createNativeFunction(Scope.Game.commands[commandName]));
   });
@@ -186,8 +185,6 @@ Scope.execute = function() {
 };
 
 Scope.interpretCode = function(interpreter) {
-  console.log(interpreter);
-
   if(interpreter.step()) {
     setTimeout(function() {
       Scope.interpretCode(interpreter);

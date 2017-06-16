@@ -265,7 +265,7 @@ All code is free and open source.
 * 帳號系統
 * Code 儲存
 * UI animation
-* UI.workspace.cup, UI.workspace.cupCover, ...
+* UI.workspace.cup, UI.workspace.cupCap, ...
 * UI: serve cup to customer
 
 # Done

@@ -25,34 +25,49 @@ Game.init = function() {
 
   // state of the game, including static and dynamic info
   // UI changes should be based on this
+  Game.props = {
+    shop: {
+      prices: {
+        "black tea": 20,
+        "green tea": 20,
+      },
+    },
+    orders: [
+      {drinkType: "black tea"},
+    ],
+  }
+
+  Game.initState()
+  Game.UI.init();
+};
+
+Game.initState = function () {
   Game.state = {
     shop: {
-      money: 100,
+      usedMoney: 0,
       usedTime: 0,
       usedCupCount: 0,
       usedDrink: {
         "black tea": 0,
         "green tea": 0,
       },
-      prices: {
-        "black tea": 20,
-        "green tea": 20,
-      },
     },
+    // workspace: {
+    //   holding: null,
+    //   served: [],
+    // },
     robot: {
       holding: null,
       served: [],
     },
-    orders: [
-      {drinkType: "black tea"},
-    ],
+    log: [],
   };
+}
 
-  Game.log = [];
-  Game.UI.init();
-};
-
-Game.reset = Game.init;
+Game.reset = function () {
+  Game.initState();
+  Game.UI.reset();
+}
 
 /** private methods
  *
@@ -105,7 +120,7 @@ Game.commands.getNewCup = function() {
   console.log("getNewCup");
   var robot = Game.getRobot();
   robot.holding = {class: "cup"};
-  Game.UI.clean()
+  Game.UI.cleanWorkspace()
   Game.UI.drawCup();
 }
 
@@ -134,7 +149,7 @@ Game.commands.fillCupWith = function(drink) {
 }
 
 Game.commands.coverCup = function(drink) {
-  console.log("fillCupWith");
+  console.log("coverCup");
   var robot = Game.getRobot();
   if (!robot.holding) {
     console.log("command error: robot not holding anything");
@@ -145,10 +160,11 @@ Game.commands.coverCup = function(drink) {
     return;
   }
   robot.holding.isCovered = true;
-  Game.UI.drawCupCover();
+  Game.UI.drawCupCap();
 }
 
 Game.commands.serve = function() {
+  console.log("serve");
   var robot = Game.getRobot();
   if (!robot.holding) {
     console.log("command error: robot not holding anything");
@@ -156,5 +172,5 @@ Game.commands.serve = function() {
   }
   robot.served.push(robot.holding);
   robot.holding = null;
-  UI.clean();
+  // UI.clean();
 }
