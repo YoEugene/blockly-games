@@ -25,15 +25,18 @@
 
 function setDebug(debug) {
   if (debug) {
-    sessionStorage.setItem('debug', 1);
+    // sessionStorage.setItem('debug', 1);
+    localStorage.setItem('debug', 1);
     console.info('Uncompressed mode activated.  Happy hacking!');
   } else {
-    sessionStorage.removeItem('debug');
+    // sessionStorage.removeItem('debug');
+    localStorage.removeItem('debug');
     console.info('Compressed mode activated.');
   }
 }
 
 (function() {
-  var debug = !!sessionStorage.getItem('debug');
+  // var debug = !!sessionStorage.getItem('debug');
+  var debug = !!localStorage.getItem('debug');
   document.getElementById(debug ? 'debug1' : 'debug0').checked = true;
 })();
