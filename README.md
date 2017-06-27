@@ -268,10 +268,12 @@ All code is free and open source.
 * UI.workspace.cup, UI.workspace.cupCap, ...
 * UI: serve cup to customer
 
+
 # Done
 * 總之先把各種積木嵌進去，別管code漂不漂亮
 * 嘗試讓積木可以寫在一個地方，並被多個關卡或遊戲存取
 
 # Production
 * 注意要換回compressed mode (not debug mode)
+* 可以直接禁止debug mode
 * 目前shop/js 之下的東西都是可以直接 access的，之後換回compressed mode 後要禁止。在app.yaml設定
