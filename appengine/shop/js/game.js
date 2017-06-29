@@ -7,6 +7,8 @@
 goog.provide('Shop.Game');
 goog.require('Blockly.JavaScript');
 goog.require('Shop.Game.UI');
+goog.require('Shop.utils');
+goog.require('Shop.Game.Params');
 
 var Game = Shop.Game;
 // Game.svg = document.getElementById('svgShop');
@@ -18,7 +20,7 @@ Game.levels
 */
 
 // Game.init = function(levelSettings) {
-Game.init = function() {
+Game.init = function(level) {
   // Game.constants = {
   //   blackTea: "black tea"
   // };
@@ -42,8 +44,21 @@ Game.init = function() {
 };
 
 Game.initState = function () {
+  var shopInitialState = {
+    money: 0,
+    time: 0,
+    cups: {
+      medium: 1,
+    },
+    materials: {
+      "black tea": 500,
+      "green tea": 500,
+    }
+  };
   Game.state = {
     shop: {
+      money: 0,
+      time: 0,
       usedMoney: 0,
       usedTime: 0,
       usedCupCount: 0,
@@ -114,10 +129,14 @@ Game.checkLevelDone = function(level) {
 
 // block methods
 
+Game.errorMessage = function(cmdKey, msgKey) {
+  return BlocklyGames.getMsg('DrinkShop_msg_errorIn').replace('%1', BlocklyGames.getMsg(cmdKey)) + '\n'
+    + BlocklyGames.getMsg('DrinkShop_msg_reason') + ': ' + BlocklyGames.getMsg(msgKey);
+}
+
 Game.commands = {};
 
 Game.commands.getNewCup = function() {
-  console.log("getNewCup");
   var robot = Game.getRobot();
   robot.holding = {class: "cup"};
   Game.UI.cleanWorkspace()
@@ -125,19 +144,18 @@ Game.commands.getNewCup = function() {
 }
 
 Game.commands.fillCupWith = function(drink) {
-  console.log("fillCupWith");
   var robot = Game.getRobot();
-  if (!robot.holding) {
+  if (!robot.holding || robot.holding.class != "cup") {
     console.log("command error: robot not holding anything");
-    return;
+    throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_noCup');
   }
-  if (robot.holding.class !== "cup") {
-    console.log("command error: robot not holding a cup");
-    return;
-  }
+  // if (robot.holding.class !== "cup") {
+  //   console.log("command error: robot not holding a cup");
+  //   throw "command error: There is no cup in my hand."; // "執行 xxx 時發生錯誤\n原因：手上沒有杯子"
+  // }
   if (!!robot.holding.isCovered) {
     console.log("command error: cup has been covered");
-    return;
+    throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_cupCovered');
   }
   robot.holding.filled = drink; // ex: "black tea"
   if (drink == "black tea") {
@@ -151,13 +169,9 @@ Game.commands.fillCupWith = function(drink) {
 Game.commands.coverCup = function(drink) {
   console.log("coverCup");
   var robot = Game.getRobot();
-  if (!robot.holding) {
-    console.log("command error: robot not holding anything");
-    return;
-  }
-  if (robot.holding.class !== "cup") {
-    console.log("command error: robot not holding a cup");
-    return;
+  if (!robot.holding || robot.holding.class != "cup") {
+    console.log("command error: robot not holding cup");
+    throw Game.errorMessage('DrinkShop_coverCup', 'DrinkShop_msg_noCup');
   }
   robot.holding.isCovered = true;
   Game.UI.drawCupCap();
@@ -166,11 +180,15 @@ Game.commands.coverCup = function(drink) {
 Game.commands.serve = function() {
   console.log("serve");
   var robot = Game.getRobot();
-  if (!robot.holding) {
-    console.log("command error: robot not holding anything");
-    return;
+  if (!robot.holding || robot.holding.class != "cup") {
+    console.log("command error: robot not holding cup");
+    throw Game.errorMessage('DrinkShop_coverCup', 'DrinkShop_msg_noCup');
   }
   robot.served.push(robot.holding);
   robot.holding = null;
-  // UI.clean();
+
+  UI.drawHand();
+  setTimeout(function() {
+    UI.cleanWorkspace();
+  }, 500);
 }

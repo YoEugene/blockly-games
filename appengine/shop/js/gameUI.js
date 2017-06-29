@@ -1,28 +1,22 @@
 goog.provide('Shop.Game.UI');
 goog.require('Blockly');
+goog.require('Shop.utils');
+goog.require('goog.graphics.SvgGraphics');
 
 var UI = Shop.Game.UI;
-
-if (!String.prototype.format) {
-  String.prototype.format = function() {
-    var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) {
-      return typeof args[number] != 'undefined'
-        ? args[number]
-        : match
-      ;
-    });
-  };
-}
 
 UI.init = function() {
   var scale = 100;
   var middleX = scale / 2;
   var middleY = scale / 2;
 
-  UI.svg = document.getElementById('svgShop');
+  console.log(Blockly.SVG_NS);
+
+  UI.svg = document.getElementById('svgWorkspace');
   var scale = 100;
   UI.svg.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale);
+
+  // goog.graphics.SvgGraphics.drawRect(10, 50, 50, 10, '#eee', '#ccc', UI.svg);
 
   UI.drawn = {};
 
@@ -109,23 +103,26 @@ UI.init = function() {
   }
 
   UI.settings.hand = {
-    color: '#ffc57b',
-    fingerWidth: 5,
-  }
-  UI.settings.hand.elements = [
-    {
-      element: 'line',
-      attributes: {
-        x1: 50,
-        y1: 50,
-        x2: scale,
-        y1: 50,
-      }
+    // fingerWidth: 20,
+    element: 'line',
+    attributes: {
+      x1: 50,
+      y1: 50,
+      x2: scale,
+      y2: 50,
+      'stroke': '#ffc57b',
+      'stroke-width': 25,
+      'stroke-linecap': 'round',
     }
-  ]
+  }
+  // UI.settings.hand.elements = [
+  //   {
 
-  UI.drawObject('background', UI.svg);
-  UI.workspace = UI.drawObject('workspace', UI.svg);
+  //   }
+  // ]
+
+  UI.drawObject(UI.settings.background, UI.svg);
+  UI.workspace = UI.drawObject(UI.settings.workspace, UI.svg);
   UI.drawn = {};
 };
 
@@ -136,12 +133,12 @@ UI.reset = function() {
 
 // private
 
-UI.drawObject = function(objName, parent) {
-  var object = UI.settings[objName];
-  var attributes = object.attributes;
-  var shape = document.createElementNS(Blockly.SVG_NS, object.element);
-  Object.keys(object.attributes).map(function(attributeName) {
-    shape.setAttribute(attributeName, object.attributes[attributeName]);
+UI.drawObject = function(objConfig, parent) {
+  // var object = UI.settings[objName];
+  var attributes = objConfig.attributes;
+  var shape = document.createElementNS(Blockly.SVG_NS, objConfig.element);
+  Object.keys(objConfig.attributes).map(function(attributeName) {
+    shape.setAttribute(attributeName, objConfig.attributes[attributeName]);
   });
   parent.appendChild(shape);
   return shape;
@@ -160,8 +157,8 @@ UI.cleanWorkspace = function() {
 }
 
 UI.drawCup = function() {
-  UI.drawn.cup = UI.drawObject('cup', UI.workspace);
-  UI.drawObject('cupLight', UI.workspace);
+  UI.drawn.cup = UI.drawObject(UI.settings.cup, UI.workspace);
+  UI.drawObject(UI.settings.cupLight, UI.workspace);
 }
 
 UI.fillCup = function(color) {
@@ -169,5 +166,9 @@ UI.fillCup = function(color) {
 }
 
 UI.drawCupCap = function(color) {
-  UI.drawObject('cupCap', UI.workspace);
+  UI.drawObject(UI.settings.cupCap, UI.workspace);
+}
+
+UI.drawHand = function() {
+  UI.drawObject(UI.settings.hand, UI.workspace);
 }

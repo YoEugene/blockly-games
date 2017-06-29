@@ -1,121 +1,120 @@
 <html>
 <header>
-    <style type="text/css">
-        body {
-            margin: 0;
-            background-color: #e0e0e0;
-        }
+  <style type="text/css">
+    body {
+      margin: 0;
+      background-color: #e0e0e0;
+    }
 
-        #shop-wrapper {
-            width: 100vw;
-            height: 56.25vw;
-            /* 100/56.25 = 1.778 */
-            max-height: 100vh;
-            max-width: 177.78vh;
-            /* 16/9 = 1.778 */
-            margin: auto;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            /* vertical center */
-            left: 0;
-            right: 0;
-            /* horizontal center */
-        }
+    #shop-wrapper {
+      width: 100vw;
+      height: 56.25vw;
+      /* 100/56.25 = 1.778 */
+      max-height: 100vh;
+      max-width: 177.78vh;
+      /* 16/9 = 1.778 */
+      margin: auto;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      /* vertical center */
+      left: 0;
+      right: 0;
+      /* horizontal center */
+    }
 
-        .clickable {
-            cursor: pointer;
-        }
+    .clickable {
+      cursor: pointer;
+    }
 
-        .hidden-text {
-            display: none;
-        }
+    .hidden-text {
+      display: none;
+    }
 
-        #drink-shop-material-list:hover #drink-shop-material-list-text {
-            display: block;
-        }
+    #drink-shop-material-list:hover #drink-shop-material-list-text {
+      display: block;
+    }
 
-        #drink-shop-price-list:hover #drink-shop-price-list-text {
-            display: block;
-        }
+    #drink-shop-price-list:hover #drink-shop-price-list-text {
+      display: block;
+    }
 
-        #drink-shop-robot:hover #drink-shop-robot-text {
-            display: block;
-        }
+    #drink-shop-robot:hover #drink-shop-robot-text {
+      display: block;
+    }
 
-        .black-text-with-shadow {
-            text-shadow: 4px rgba(255, 255, 255, 0.75);
-        }
-    </style>
+    .black-text-with-shadow {
+      text-shadow: 4px rgba(255, 255, 255, 0.75);
+    }
+  </style>
 </header>
 
 <body>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgShop" width="100%" height="100%" viewBox="0 0 1280 720">
-        <defs>
-            <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="10 10" result="glow" />
-                <feMerge>
-                    <feMergeNode in="glow" />
-                    <feMergeNode in="glow" />
-                    <feMergeNode in="glow" />
-                </feMerge>
-            </filter>
-        </defs>
-        <g id="drink-shop-walls">
-            <rect fill="#d0d0d0" width="100%" height="100%"></rect>
-            <rect fill="#e0e0e0" width="160" height="100%"></rect>
-            <rect fill="#e0e0e0" x="1120" width="160" height="100%"></rect>
-            <polygon fill="#d8d8d8" points="0,0 1280,0 1120,80 160,80"></polygon>
-        </g>
-        <svg id="drink-shop-material-list" class="clickable" x="220" y="160" width="90" height="120" viewBox="0 0 150 200">
-            <rect fill="#f0f0f0" width="100%" height="100%">
-            </rect>
-            <circle cx="75" cy="15" r="5" fill="brown"></circle>
-            <line x1="30" y1="30" x2="120" y2="30" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="50" x2="120" y2="50" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="70" x2="120" y2="70" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="90" x2="120" y2="90" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="110" x2="120" y2="110" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="130" x2="120" y2="130" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="150" x2="120" y2="150" style="stroke:#e0e0e0; stroke-width:5"></line>
-            <line x1="30" y1="170" x2="120" y2="170" style="stroke:#e0e0e0; stroke-width:5"></line>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgShop" width="100%" height="100%" viewBox="0 0 1280 720">
+    <defs>
+      <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="10 10" result="glow" />
+        <feMerge>
+          <feMergeNode in="glow" />
+          <feMergeNode in="glow" />
+          <feMergeNode in="glow" />
+        </feMerge>
+      </filter>
+    </defs>
+    <g id="drink-shop-walls">
+      <rect fill="#d0d0d0" width="100%" height="100%"></rect>
+      <rect fill="#e0e0e0" width="160" height="100%"></rect>
+      <rect fill="#e0e0e0" x="1120" width="160" height="100%"></rect>
+      <polygon fill="#d8d8d8" points="0,0 1280,0 1120,80 160,80"></polygon>
+    </g>
+    <svg id="drink-shop-material-list" class="clickable" x="220" y="160" width="90" height="120" viewBox="0 0 150 200">
+      <rect fill="#f0f0f0" width="100%" height="100%">
+      </rect>
+      <circle cx="75" cy="15" r="5" fill="brown"></circle>
+      <line x1="30" y1="30" x2="120" y2="30" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="50" x2="120" y2="50" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="70" x2="120" y2="70" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="90" x2="120" y2="90" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="110" x2="120" y2="110" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="130" x2="120" y2="130" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="150" x2="120" y2="150" style="stroke:#e0e0e0; stroke-width:5"></line>
+      <line x1="30" y1="170" x2="120" y2="170" style="stroke:#e0e0e0; stroke-width:5"></line>
 
-            <text id="drink-shop-material-list-text" class="hidden-text" x="50%" y="50%" fill="black" text-anchor="middle" alignment-baseline="central"
-                font-family="Arial" font-size="40">材料</text>
-        </svg>
-        <svg id="drink-shop-robot" class="clickable" x="460" y="220" width="360" height="360" viewBox="0 0 360 360">
-            <image width="360" height="360" xlink:href="public/robot.png" />
-            <g id="drink-shop-robot-text" class="hidden-text" text-anchor="middle" alignment-baseline="central" font-family="Arial"
-                font-size="50">
-                <text style="filter: url(#glow); fill: white" x="50%" y="50%">撰寫程式</text>
-                <text x="50%" y="50%"style="fill:black;">撰寫程式</text>
-            </g>
-        </svg>
-        <g id="drink-shop-front-desk">
-            <rect fill="#80DEEA" y="480" width="100%" height="240"></rect>
-            <rect fill="white" y="480" width="100%" height="60"></rect>
-            <polygon fill="#f4f4f4" points="0,480 1280,480 1240,465 40,465"></polygon>
-        </g>
-        <svg id="drink-shop-price-list" class="clickable" x="1000" y="275" width="150" height="200" viewBox="0 0 150 200">
-            <rect fill="#f8f8f8" width="100%" height="100%">
-            </rect>
-            <line x1="30" y1="30" x2="120" y2="30" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="50" x2="120" y2="50" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="70" x2="120" y2="70" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="90" x2="120" y2="90" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="110" x2="120" y2="110" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="130" x2="120" y2="130" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="150" x2="120" y2="150" style="stroke:#f0f0f0; stroke-width:5"></line>
-            <line x1="30" y1="170" x2="120" y2="170" style="stroke:#f0f0f0; stroke-width:5"></line>
-
-            <line x1="140" y1="-20" x2="-20" y2="140" style="stroke: white; stroke-width:30"></line>
-            <line x1="20" y1="220" x2="220" y2="20" style="stroke: white; stroke-width:20"></line>
-            <rect fill="rgba(0, 0, 0, 0)" width="100%" height="100%" stroke="#e0e0e0" stroke-width="15" stroke-alignment="inner" />
-
-            <text id="drink-shop-price-list-text" class="hidden-text" x="50%" y="50%" fill="black" text-anchor="middle" alignment-baseline="central"
-                font-family="Arial" font-size="30">菜單</text>
-        </svg>
+      <text id="drink-shop-material-list-text" class="hidden-text" x="50%" y="50%" fill="black" text-anchor="middle" alignment-baseline="central"
+        font-family="Arial" font-size="40">材料</text>
     </svg>
+    <svg id="drink-shop-robot" class="clickable" x="460" y="220" width="360" height="360" viewBox="0 0 360 360">
+      <image width="360" height="360" xlink:href="public/robot.png" />
+      <g id="drink-shop-robot-text" class="hidden-text" text-anchor="middle" alignment-baseline="central" font-family="Arial" font-size="40">
+        <text style="filter: url(#glow); fill: white" x="50%" y="50%">撰寫程式</text>
+        <text x="50%" y="50%" style="fill:black;">撰寫程式</text>
+      </g>
+    </svg>
+    <g id="drink-shop-front-desk">
+      <rect fill="#80DEEA" y="480" width="100%" height="240"></rect>
+      <rect fill="white" y="480" width="100%" height="60"></rect>
+      <polygon fill="#f4f4f4" points="0,480 1280,480 1240,465 40,465"></polygon>
+    </g>
+    <svg id="drink-shop-price-list" class="clickable" x="1000" y="275" width="150" height="200" viewBox="0 0 150 200">
+      <rect fill="#f8f8f8" width="100%" height="100%">
+      </rect>
+      <line x1="30" y1="30" x2="120" y2="30" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="50" x2="120" y2="50" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="70" x2="120" y2="70" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="90" x2="120" y2="90" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="110" x2="120" y2="110" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="130" x2="120" y2="130" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="150" x2="120" y2="150" style="stroke:#f0f0f0; stroke-width:5"></line>
+      <line x1="30" y1="170" x2="120" y2="170" style="stroke:#f0f0f0; stroke-width:5"></line>
+
+      <line x1="140" y1="-20" x2="-20" y2="140" style="stroke: white; stroke-width:30"></line>
+      <line x1="20" y1="220" x2="220" y2="20" style="stroke: white; stroke-width:20"></line>
+      <rect fill="rgba(0, 0, 0, 0)" width="100%" height="100%" stroke="#e0e0e0" stroke-width="15" stroke-alignment="inner" />
+
+      <text id="drink-shop-price-list-text" class="hidden-text" x="50%" y="50%" fill="black" text-anchor="middle" alignment-baseline="central"
+        font-family="Arial" font-size="30">菜單</text>
+    </svg>
+  </svg>
 </body>
 
 </html>

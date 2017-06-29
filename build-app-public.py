@@ -188,6 +188,7 @@ def write_compressed(name, lang):
       '--namespace=%s' % name.replace('/', '.').title(),
       '--compiler_jar=third-party/closure-compiler.jar',
       # '--compiler_flags=--compilation_level=ADVANCED_OPTIMIZATIONS',
+      # '--compiler_flags=--compilation_level=WHITESPACE_ONLY',  # not working due to module namespace provided more than once
       '--compiler_flags=--compilation_level=SIMPLE_OPTIMIZATIONS',
       '--compiler_flags=--externs=externs/svg-externs.js',
       '--compiler_flags=--externs=externs/interpreter-externs.js',

@@ -16,6 +16,8 @@ BlocklyGames.NAME = 'shop';
 
 var Scope = Shop;
 
+Scope.MAX_STEPS = 10000;
+Scope.STEP_SPEED = 100;
 
 BlocklyInterface.nextLevel = function() {
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
@@ -42,19 +44,19 @@ Scope.init = function() {
 
   var rtl = BlocklyGames.isRtl();  // right to left?
   var blocklyDiv = document.getElementById('blockly');
-  var visualization = document.getElementById('visualization');
-  var onresize = function(e) {
-    var top = visualization.offsetTop;
-    blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-    blocklyDiv.style.left = rtl ? '10px' : '420px';
-    blocklyDiv.style.width = (window.innerWidth - 430) + 'px';
-  };
-  window.addEventListener('scroll', function() {
-    onresize();
-    Blockly.svgResize(BlocklyGames.workspace);
-  });
-  window.addEventListener('resize', onresize);
-  onresize();
+  // var visualization = document.getElementById('visualization');
+  // var onresize = function(e) {
+  //   // var top = visualization.offsetTop;
+  //   // blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
+  //   // blocklyDiv.style.left = rtl ? '10px' : '420px';
+  //   // blocklyDiv.style.width = (window.innerWidth - 430) + 'px';
+  // };
+  // window.addEventListener('scroll', function() {
+  //   onresize();
+  //   Blockly.svgResize(BlocklyGames.workspace);
+  // });
+  // window.addEventListener('resize', onresize);
+  // onresize();
 
   var toolbox = document.getElementById('toolbox');
   var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3; // 1.3 ~ 1
@@ -79,10 +81,29 @@ Scope.init = function() {
 //   Maze.reset(true);
 //   BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity()});
 
-  Scope.Game.init();
+  Scope.Game.init(level=BlocklyGames.LEVEL);
 
   BlocklyGames.bindClick('runButton', Scope.runButtonClick);
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
+
+  var workspaceContainer = document.getElementById('drink-shop-workspace-container');
+  workspaceContainer.style.display = "none";
+
+  var showWorkspace = function(event) {
+    workspaceContainer.style.display = "block";
+    event.stopPropagation();
+  };
+  var hideWorkspace = function(event) {
+    workspaceContainer.style.display = "none";
+    event.stopPropagation();
+  };
+  var stopPropagation = function(event) {
+    event.stopPropagation();
+  };
+
+  BlocklyGames.bindClick('drink-shop-robot', showWorkspace);
+  BlocklyGames.bindClick('drink-shop-workspace', stopPropagation);
+  BlocklyGames.bindClick('drink-shop-workspace-container', hideWorkspace);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -138,7 +159,7 @@ Scope.execute = function() {
 
   // interpreter.run();
 
-  Scope.interpretCode(interpreter);
+  Scope.interpretCode(interpreter, 0);
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
@@ -184,19 +205,33 @@ Scope.execute = function() {
   // Maze.pidList.push(setTimeout(Maze.animate, 100));
 };
 
-Scope.interpretCode = function(interpreter) {
-  if(interpreter.step()) {
-    setTimeout(function() {
-      Scope.interpretCode(interpreter);
-    }, 100);
-  }
-  else {
-    setTimeout(function() {
-      if (Scope.Game.checkLevelDone(BlocklyGames.LEVEL)) {
-        BlocklyInterface.saveToLocalStorage();
-        BlocklyDialogs.congratulations();
-      }
-    }, 100);
+Scope.interpretCode = function(interpreter, stepCount) {
+  try {
+    if (stepCount > Scope.MAX_STEPS) {
+      throw Infinity;
+    }
+    if (interpreter.step()) {
+      setTimeout(function() {
+        Scope.interpretCode(interpreter, stepCount + 1);
+      }, Scope.STEP_SPEED);
+    }
+    else {
+      setTimeout(function() {
+        if (Scope.Game.checkLevelDone(BlocklyGames.LEVEL)) {
+          BlocklyInterface.saveToLocalStorage();
+          BlocklyDialogs.congratulations();
+        }
+      }, Scope.STEP_SPEED);
+    }
+  } catch (e) {
+    if (e === Infinity) {
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_tooManySteps'));
+    } else if (typeof e === 'string') {
+      window.alert(e);
+    } else {
+      // Syntax error, can't happen.
+      window.alert(e);
+    }
   }
 }
 

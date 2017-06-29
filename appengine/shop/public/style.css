@@ -1,6 +1,9 @@
 #blockly {
-  position: fixed;
-  bottom: 10px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 420px;
 }
 #visualization {
   position: relative;
@@ -74,12 +77,90 @@ html[dir="RTL"] button.primary {
 .header {
   padding: 0 10px;
   background-color: #eee;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  height: 60px;
+  /*margin-bottom: 10px;*/
+  /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);*/
 }
 #runButtonWrapper {
   text-align: center;
 }
+
+#shop-wrapper {
+  width: 100vw;
+  height: 56.25vw;
+  /* 100/56.25 = 1.778 */
+  max-height: 100vh;
+  max-width: 177.78vh;
+  /* 16/9 = 1.778 */
+  margin: auto;
+  /*position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;*/
+}
+
 .clickable {
   cursor: pointer;
+}
+
+.hidden-text {
+  display: none;
+}
+
+#drink-shop-material-list:hover #drink-shop-material-list-text {
+  display: block;
+}
+
+#drink-shop-price-list:hover #drink-shop-price-list-text {
+  display: block;
+}
+
+#drink-shop-robot:hover #drink-shop-robot-text {
+  display: block;
+}
+
+.black-text-with-shadow {
+  text-shadow: 4px rgba(255, 255, 255, 0.75);
+}
+
+#drink-shop-container {
+  width: 100%;
+  height: calc(100vh - 60px);
+  background-color: #e0e0e0;
+  position: relative;
+}
+
+#drink-shop-workspace-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.25)
+}
+
+#drink-shop-workspace {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background-color: white;
+}
+
+#drink-shop-workspace-left {
+  position: relative;
+  width: 420px;
+  height: 100%;
+  padding: 10px;
+  overflow: scroll;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#drink-shop-workspace .blocklyFlyout,
+#drink-shop-workspace .blocklyFlyoutScrollbar {
+  z-index: 0;
 }

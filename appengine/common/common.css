@@ -104,6 +104,7 @@ button:hover:not(:disabled) {
 
 /* Dialogs */
 #dialog {
+  top: 3em;
   visibility: hidden;
   background-color: #fff;
   color: #000;

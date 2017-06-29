@@ -233,6 +233,10 @@
 	"DrinkShop_msg_cupEmpty": "game message",
 	"DrinkShop_msg_notBlackTea": "game message",
 	"DrinkShop_msg_cupNotCovered": "game message",
+	"DrinkShop_msg_errorIn": "game message",
+	"DrinkShop_msg_reason": "game message",
+	"DrinkShop_msg_noCup": "game message",
+	"DrinkShop_msg_cupCovered": "game message",
 	"Games.shop": "Drink Shop",
 	"DrinkShop_runTooltip": "tooltip - Pressing this button runs the computer program the user has written to move the robot.",
 	"DrinkShop_resetTooltip": "tooltip - Pressing this button to restart the game."
