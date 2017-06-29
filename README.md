@@ -44,6 +44,16 @@ All code is free and open source.
 * appengine/third-party/blockly/blocks/text.js
     * line 30: add `goog.require('Blockly');`
     * to fix Uncaught TypeError: Blockly.defineBlocksWithJsonArray is not a function
+* appengine/js/lib-games.js:332
+    * original:
+        ```js
+        el.addEventListener('click', func, true);
+        el.addEventListener('touchend', func, true);
+        ```
+    * editted: remove both ", true"
+    * reason: change capture to bubble: https://javascript.info/bubbling-and-capturing
+
+
 
 
 ## Maze
