@@ -232,6 +232,7 @@
 	"DrinkShop_msg_servedMultiple": "game message",
 	"DrinkShop_msg_cupEmpty": "game message",
 	"DrinkShop_msg_notBlackTea": "game message",
+	"DrinkShop_msg_notGreenTea": "game message",
 	"DrinkShop_msg_cupNotCovered": "game message",
 	"DrinkShop_msg_errorIn": "game message",
 	"DrinkShop_msg_reason": "game message",

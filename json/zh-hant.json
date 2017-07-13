@@ -246,6 +246,7 @@
 	"DrinkShop_msg_servedMultiple": "客人拿到太多杯飲料",
 	"DrinkShop_msg_cupEmpty": "杯子是空的",
 	"DrinkShop_msg_notBlackTea": "這不是紅茶",
+	"DrinkShop_msg_notGreenTea": "這不是綠茶",
 	"DrinkShop_msg_cupNotCovered": "杯子沒有蓋好",
 	"DrinkShop_msg_errorIn": "執行「%1」時發生錯誤",
 	"DrinkShop_msg_reason": "原因",

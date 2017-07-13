@@ -263,6 +263,10 @@ Scope.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   // BlocklyGames.workspace.traceOn(true);
+
+  var container = document.getElementById('drink-shop-workspace-left');
+  container.scrollTop = container.scrollHeight;
+
   Scope.Game.reset();
   Scope.execute();
 };

@@ -21,68 +21,30 @@ Game.levels
 
 // Game.init = function(levelSettings) {
 Game.init = function(level) {
-  // Game.constants = {
-  //   blackTea: "black tea"
-  // };
+  Game.props = Shop.Game.Params.props;
+  Game.levelConfig = Shop.Game.Params.levels[level];
 
-  // state of the game, including static and dynamic info
-  // UI changes should be based on this
-  Game.props = {
-    shop: {
-      prices: {
-        "black tea": 20,
-        "green tea": 20,
-      },
-    },
-    orders: [
-      {drinkType: "black tea"},
-    ],
-  }
-
-  Game.initState()
-  Game.UI.init();
+  Game.initState();
+  Game.UI.init(Game.state.shop);
+  document.getElementById('drink-shop-level-desc').innerHTML = Game.levelConfig.desc;
+  document.getElementById('drink-shop-level-desc-goal').innerHTML = Game.levelConfig.goal;
 };
 
 Game.initState = function () {
-  var shopInitialState = {
-    money: 0,
-    time: 0,
-    cups: {
-      medium: 1,
-    },
-    materials: {
-      "black tea": 500,
-      "green tea": 500,
-    }
-  };
   Game.state = {
-    shop: {
-      money: 0,
-      time: 0,
-      usedMoney: 0,
-      usedTime: 0,
-      usedCupCount: 0,
-      usedDrink: {
-        "black tea": 0,
-        "green tea": 0,
-      },
-    },
-    // workspace: {
-    //   holding: null,
-    //   served: [],
-    // },
+    shop: Game.levelConfig.getInitialShopState(),
     robot: {
       holding: null,
       served: [],
     },
     log: [],
   };
-}
+};
 
 Game.reset = function () {
   Game.initState();
-  Game.UI.reset();
-}
+  Game.UI.reset(Game.state.shop);
+};
 
 /** private methods
  *
@@ -90,7 +52,7 @@ Game.reset = function () {
 
 Game.getRobot = function() {
   return Game.state.robot;
-}
+};
 
 Game.checkLevelDone = function(level) {
   if (level === 1) {
@@ -124,24 +86,76 @@ Game.checkLevelDone = function(level) {
     }
     return true;
   }
+  if (level === 2) {
+    var robot = Game.getRobot();
+    if (robot.served.length !== 1) {
+      if (robot.served.length === 0) {
+        console.log("level not done: not serving any drink");
+        window.alert(BlocklyGames.getMsg('DrinkShop_msg_noServedDrink'));
+        return false;
+      }
+      if (robot.served.length > 1) {
+        console.log("level not done: should serve only one cup of drink");
+        window.alert(BlocklyGames.getMsg('DrinkShop_msg_servedMultiple'));
+        return false;
+      }
+    }
+    if (!robot.served[0].filled) {
+      console.log("level not done: cup empty");
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupEmpty'));
+      return false;
+    }
+    if (robot.served[0].filled != "green tea") {
+      console.log("level not done: not green tea in the cup");
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_notGreenTea'));
+      return false;
+    }
+    if (!robot.served[0].isCovered) {
+      console.log("level not done: cup not covered");
+      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupNotCovered'));
+      return false;
+    }
+    return true;
+  }
   return false;
-}
-
-// block methods
+};
 
 Game.errorMessage = function(cmdKey, msgKey) {
   return BlocklyGames.getMsg('DrinkShop_msg_errorIn').replace('%1', BlocklyGames.getMsg(cmdKey)) + '\n'
     + BlocklyGames.getMsg('DrinkShop_msg_reason') + ': ' + BlocklyGames.getMsg(msgKey);
-}
+};
+
+Game.spendTime = function(timeSpent) {
+  // data
+  // Game.state.shop.timeSpent += timeSpent;
+  Game.state.shop.remainingTime -= timeSpent;
+  // UI
+  Game.UI.updateTime(Game.state.shop.remainingTime);
+};
+
+Game.earnMoney = function(money) {
+  // data
+  // Game.state.shop.timeSpent += timeSpent;
+  Game.state.shop.money += money;
+  // UI
+  Game.UI.updateMoney(Game.state.shop.money);
+};
+
+// block methods
 
 Game.commands = {};
 
 Game.commands.getNewCup = function() {
-  var robot = Game.getRobot();
-  robot.holding = {class: "cup"};
-  Game.UI.cleanWorkspace()
+  // data
+  // var robot = Game.getRobot();
+  Game.state.robot.holding = {class: "cup"};
+  Game.state.shop.materials.cup -= 1;
+  Game.spendTime(Game.props.robot.actions.getNewCup.timeSpent);
+
+  // UI
+  Game.UI.cleanWorkspace();
   Game.UI.drawCup();
-}
+};
 
 Game.commands.fillCupWith = function(drink) {
   var robot = Game.getRobot();
@@ -157,6 +171,7 @@ Game.commands.fillCupWith = function(drink) {
     console.log("command error: cup has been covered");
     throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_cupCovered');
   }
+
   robot.holding.filled = drink; // ex: "black tea"
   if (drink == "black tea") {
     Game.UI.fillCup("#cf5a36");
@@ -164,7 +179,8 @@ Game.commands.fillCupWith = function(drink) {
   else {
     Game.UI.fillCup("#e4db3d");
   }
-}
+  Game.spendTime(Game.props.robot.actions.fillCup.timeSpent);
+};
 
 Game.commands.coverCup = function(drink) {
   console.log("coverCup");
@@ -175,7 +191,8 @@ Game.commands.coverCup = function(drink) {
   }
   robot.holding.isCovered = true;
   Game.UI.drawCupCap();
-}
+  Game.spendTime(Game.props.robot.actions.coverCup.timeSpent);
+};
 
 Game.commands.serve = function() {
   console.log("serve");
@@ -188,7 +205,10 @@ Game.commands.serve = function() {
   robot.holding = null;
 
   UI.drawHand();
+  Game.spendTime(Game.props.robot.actions.serve.timeSpent);
+  Game.earnMoney(20);
+
   setTimeout(function() {
     UI.cleanWorkspace();
   }, 500);
-}
+};

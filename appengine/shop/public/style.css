@@ -1,9 +1,9 @@
 #blockly {
   position: absolute;
-  top: 0px;
-  bottom: 0px;
-  right: 0px;
-  left: 420px;
+  top: 15px;
+  bottom: 15px;
+  right: 15px;
+  left: 430px;
 }
 #visualization {
   position: relative;
@@ -151,9 +151,9 @@ html[dir="RTL"] button.primary {
 
 #drink-shop-workspace-left {
   position: relative;
-  width: 420px;
+  width: 430px;
   height: 100%;
-  padding: 10px;
+  padding: 15px;
   overflow: scroll;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -163,4 +163,44 @@ html[dir="RTL"] button.primary {
 #drink-shop-workspace .blocklyFlyout,
 #drink-shop-workspace .blocklyFlyoutScrollbar {
   z-index: 0;
+}
+
+.drink-shop-level-desc-title {
+  color: #00838F;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #B2EBF2;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.drink-shop-level-desc-text {
+  margin-bottom: 15px;
+}
+
+.hint-img {
+  display: block;
+  margin: 15px auto;
+  border: 1px solid #eee;
+}
+
+button {
+  margin-bottom: 15px;
+}
+
+.svg-clock-circle {
+  stroke: #9C27B0;
+  stroke-width: 1;
+  fill: #E1BEE7;
+}
+
+.svg-clock-line {
+  stroke: #9C27B0;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.svg-scoring-board-text {
+  alignment-baseline: middle;
+  font-size: 7px;
 }

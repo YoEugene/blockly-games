@@ -11,7 +11,7 @@ All code is free and open source.
 # Development
 
 ## 基本開發流程
-* 官方wiki(務必閱讀): https://github.com/google/blockly-games/wiki
+* 官方wiki(務必閱讀Build的部分): https://github.com/google/blockly-games/wiki
 * Getting Started
     * 安裝google cloud SDK
     * fork and clone blockly games
