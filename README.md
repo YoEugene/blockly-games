@@ -19,6 +19,7 @@ All code is free and open source.
         * 這樣會壓縮maze-en的code進到用來serve的compressed.js
     * $ cd appengine; dev_appserver.py app.yaml
         * 這一行是啟動localhost的server
+        * 如果出現 `ImportError: No module named 'setup'` ，可能是python版本錯誤的關係，預設的`python`指令必須是 python 2 而不是 python 3
     * go to http://localhost:8080/
 * Config
     * 設定 Debug mode (這樣會直接serve uncompressed js file 就不用每改一點就要壓縮一次)
