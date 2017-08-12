@@ -38,10 +38,6 @@ test-zh: common-zh
 
 test: test-en test-zh
 
-shop-en: common-en
-	$(SOY_COMPILER) --outputPathFormat appengine/shop/generated/en/soy.js --srcs appengine/shop/template.soy
-	python build-app.py shop en
-
 # shop-zh: common-zh
 # 	$(eval TEMPLATE := appengine/shop/template.soy)
 # 	$(SOY_COMPILER) --outputPathFormat appengine/shop/generated/zh-hant/soy.js --srcs $(TEMPLATE)
