@@ -1,14 +1,17 @@
 #blockly {
   position: absolute;
-  top: 15px;
+  /* top: 15px;
   bottom: 15px;
-  right: 15px;
-  left: 430px;
+  right: 15px; */
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: calc(35% + 320px); /* to calc */
 }
 #visualization {
   position: relative;
   padding: 0 10px;
-  width: 400px;
+  width: 400px; /* to calc */
 }
 #capacityBubble {
   position: absolute;
@@ -103,7 +106,7 @@ html[dir="RTL"] button.primary {
 .clickable {
   cursor: pointer;
 }
-
+/*
 .hidden-text {
   display: none;
 }
@@ -118,17 +121,23 @@ html[dir="RTL"] button.primary {
 
 #drink-shop-robot:hover #drink-shop-robot-text {
   display: block;
-}
+} */
 
 .black-text-with-shadow {
   text-shadow: 4px rgba(255, 255, 255, 0.75);
 }
 
-#drink-shop-container {
+#drink-shop-game-container {
   width: 100%;
+  height: 100vh;
+}
+
+#drink-shop-shop-container {
+  width: 65%; /* to calc */
   height: 100vh;
   background-color: #e0e0e0;
   position: relative;
+  display: inline-block;
 }
 
 #drink-shop-workspace-container {
@@ -142,16 +151,17 @@ html[dir="RTL"] button.primary {
 
 #drink-shop-workspace {
   position: absolute;
-  top: 20px;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
+  top: 0;
+  bottom: 0;
+  left: 40px;
+  right: 0;
   background-color: white;
 }
 
 #drink-shop-workspace-left {
   position: relative;
-  width: 430px;
+  /* width: 430px; */
+  width: calc(65% - 320px); /* to calc */
   height: 100%;
   padding: 15px;
   overflow: scroll;
@@ -204,3 +214,4 @@ button {
   alignment-baseline: middle;
   font-size: 7px;
 }
+

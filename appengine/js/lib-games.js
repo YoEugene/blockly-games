@@ -244,7 +244,11 @@ BlocklyGames.init = function() {
   var viewport = document.querySelector('meta[name="viewport"]');
   if (viewport && screen.availWidth < 725) {
     viewport.setAttribute('content',
-        'width=725, initial-scale=.35, user-scalable=no');
+        'width=device-width, initial-scale=.6, user-scalable=no');
+  }
+  else if (viewport && screen.availWidth < 1025) {
+    viewport.setAttribute('content',
+        'width=device-width, initial-scale=.8, user-scalable=no');
   }
 
   // Lazy-load Google analytics.
@@ -329,8 +333,10 @@ BlocklyGames.bindClick = function(el, func) {
   if (typeof el == 'string') {
     el = document.getElementById(el);
   }
-  el.addEventListener('click', func);
-  el.addEventListener('touchend', func);
+  el.addEventListener('click', func, {capture: false, passive: false});
+  el.addEventListener('touchend', func, {capture: false, passive: false});
+  // el.addEventListener('click', func, true);
+  // el.addEventListener('touchend', func, true);
 };
 
 

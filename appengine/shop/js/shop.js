@@ -87,14 +87,14 @@ Scope.init = function() {
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
   var workspaceContainer = document.getElementById('drink-shop-workspace-container');
-  workspaceContainer.style.display = "none";
+  workspaceContainer.style.zIndex = "-1";
 
   var showWorkspace = function(event) {
-    workspaceContainer.style.display = "block";
+    workspaceContainer.style.zIndex = "1";
     event.stopPropagation();
   };
   var hideWorkspace = function(event) {
-    workspaceContainer.style.display = "none";
+    workspaceContainer.style.zIndex = "-1";
     event.stopPropagation();
   };
   var stopPropagation = function(event) {

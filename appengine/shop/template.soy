@@ -7,8 +7,10 @@
 {template .start}
   {call .messages /}
   {call .header /}
-  <div id="drink-shop-container">
-    {call .svgShop /}
+  <div id="drink-shop-game-container">
+    <div id="drink-shop-shop-container">
+      {call .svgShop /}
+    </div>
     {call .workspace /}
   </div>
   {call BlocklyGames.soy.dialog /}
@@ -119,8 +121,8 @@
     <svg id="drink-shop-robot" class="clickable" x="460" y="220" width="360" height="360" viewBox="0 0 360 360">
       <image width="360" height="360" xlink:href="/shop/public/robot.png" />
       <g id="drink-shop-robot-text" class="hidden-text" text-anchor="middle" alignment-baseline="central" font-family="Arial" font-size="40">
-        <text style="filter: url(#glow); fill: white" x="50%" y="50%">撰寫程式</text>
-        <text x="50%" y="50%" style="fill:black;">撰寫程式</text>
+        <text style="filter: url(#glow); fill: white" x="50%" y="50%">編輯程式</text>
+        <text x="50%" y="50%" style="fill:black;">編輯程式</text>
       </g>
     </svg>
     <g id="drink-shop-front-desk">
