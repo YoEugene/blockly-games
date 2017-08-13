@@ -149,6 +149,7 @@ html[dir="RTL"] button.primary {
 
 .show-hide-workspace-button {
   background-color: white;
+  color: #404040;
   border-radius: 8px 0 0 8px;
   padding: 8px;
   cursor: pointer;
@@ -220,10 +221,6 @@ html[dir="RTL"] button.primary {
   border: 1px solid #eee;
 }
 
-button {
-  margin-bottom: 15px;
-}
-
 .svg-clock-circle {
   stroke: #9C27B0;
   stroke-width: 1;
@@ -241,3 +238,7 @@ button {
   font-size: 7px;
 }
 
+.svg-text-normal {
+  fill: #404040;
+  font-family: Arial, Helvetica, sans-serif;
+}
