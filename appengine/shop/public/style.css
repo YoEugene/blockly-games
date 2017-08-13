@@ -147,14 +147,25 @@ html[dir="RTL"] button.primary {
   z-index: 100000;
 }
 
-#show-workspace-button {
-  position: absolute;
-  right: 0;
-  top: 20px;
+.show-hide-workspace-button {
   background-color: white;
   border-radius: 8px 0 0 8px;
   padding: 8px;
   cursor: pointer;
+  text-align: center;
+}
+
+#show-workspace-button {
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
+
+#hide-workspace-button {
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  left: 0;
 }
 
 #drink-shop-workspace-container {
@@ -165,18 +176,6 @@ html[dir="RTL"] button.primary {
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.25)
-}
-
-#hide-workspace-button {
-  width: 50px;
-  text-align: center;
-  position: absolute;
-  top: 20px;
-  left: 0;
-  background-color: white;
-  border-radius: 8px 0 0 8px;
-  padding: 8px;
-  cursor: pointer;
 }
 
 #drink-shop-workspace {
