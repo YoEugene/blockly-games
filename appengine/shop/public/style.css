@@ -1,3 +1,9 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 #blockly {
   position: absolute;
   /* top: 15px;
@@ -6,7 +12,7 @@
   top: 0;
   bottom: 0;
   right: 0;
-  width: calc(35% + 320px); /* to calc */
+  width: calc(35% + 340px); /* to calc */
 }
 #visualization {
   position: relative;
@@ -138,9 +144,33 @@ html[dir="RTL"] button.primary {
   background-color: #e0e0e0;
   position: relative;
   display: inline-block;
+  z-index: 100000;
+}
+
+.show-hide-workspace-button {
+  background-color: white;
+  color: #404040;
+  border-radius: 8px 0 0 8px;
+  padding: 8px;
+  cursor: pointer;
+  text-align: center;
+}
+
+#show-workspace-button {
+  position: absolute;
+  right: 0;
+  top: 20px;
+}
+
+#hide-workspace-button {
+  width: 50px;
+  position: absolute;
+  top: 20px;
+  left: 0;
 }
 
 #drink-shop-workspace-container {
+  z-index: 5;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -153,7 +183,7 @@ html[dir="RTL"] button.primary {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 40px;
+  left: 50px;
   right: 0;
   background-color: white;
 }
@@ -161,13 +191,10 @@ html[dir="RTL"] button.primary {
 #drink-shop-workspace-left {
   position: relative;
   /* width: 430px; */
-  width: calc(65% - 320px); /* to calc */
+  width: calc(65% - 340px); /* to calc */
   height: 100%;
   padding: 15px;
   overflow: scroll;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
 }
 
 #drink-shop-workspace .blocklyFlyout,
@@ -194,10 +221,6 @@ html[dir="RTL"] button.primary {
   border: 1px solid #eee;
 }
 
-button {
-  margin-bottom: 15px;
-}
-
 .svg-clock-circle {
   stroke: #9C27B0;
   stroke-width: 1;
@@ -215,3 +238,7 @@ button {
   font-size: 7px;
 }
 
+.svg-text-normal {
+  fill: #404040;
+  font-family: Arial, Helvetica, sans-serif;
+}

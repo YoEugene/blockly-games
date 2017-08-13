@@ -86,15 +86,15 @@ Scope.init = function() {
   BlocklyGames.bindClick('runButton', Scope.runButtonClick);
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
-  var workspaceContainer = document.getElementById('drink-shop-workspace-container');
-  workspaceContainer.style.zIndex = "-1";
+  var shopContainer = document.getElementById('drink-shop-shop-container');
+  shopContainer.style.zIndex = "100000"; // because blocklyWidhetDiv's z-index is 99999
 
   var showWorkspace = function(event) {
-    workspaceContainer.style.zIndex = "1";
+    shopContainer.style.zIndex = "0";
     event.stopPropagation();
   };
   var hideWorkspace = function(event) {
-    workspaceContainer.style.zIndex = "-1";
+    shopContainer.style.zIndex = "100000";
     event.stopPropagation();
   };
   var stopPropagation = function(event) {
@@ -102,6 +102,7 @@ Scope.init = function() {
   };
 
   BlocklyGames.bindClick('drink-shop-robot', showWorkspace);
+  BlocklyGames.bindClick('show-workspace-button', showWorkspace);
   BlocklyGames.bindClick('drink-shop-workspace', stopPropagation);
   BlocklyGames.bindClick('drink-shop-workspace-container', hideWorkspace);
 
