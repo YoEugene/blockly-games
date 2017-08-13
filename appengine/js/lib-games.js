@@ -333,10 +333,8 @@ BlocklyGames.bindClick = function(el, func) {
   if (typeof el == 'string') {
     el = document.getElementById(el);
   }
-  el.addEventListener('click', func, {capture: false, passive: false});
-  el.addEventListener('touchend', func, {capture: false, passive: false});
-  // el.addEventListener('click', func, true);
-  // el.addEventListener('touchend', func, true);
+  el.addEventListener('click', func, true);
+  el.addEventListener('touchend', func, true);
 };
 
 

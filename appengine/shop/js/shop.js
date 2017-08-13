@@ -97,14 +97,10 @@ Scope.init = function() {
     shopContainer.style.zIndex = "100000";
     event.stopPropagation();
   };
-  var stopPropagation = function(event) {
-    event.stopPropagation();
-  };
 
   BlocklyGames.bindClick('drink-shop-robot', showWorkspace);
   BlocklyGames.bindClick('show-workspace-button', showWorkspace);
-  BlocklyGames.bindClick('drink-shop-workspace', stopPropagation);
-  BlocklyGames.bindClick('drink-shop-workspace-container', hideWorkspace);
+  BlocklyGames.bindClick('hide-workspace-button', hideWorkspace);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
