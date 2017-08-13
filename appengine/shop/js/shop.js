@@ -89,18 +89,18 @@ Scope.init = function() {
   var shopContainer = document.getElementById('drink-shop-shop-container');
   shopContainer.style.zIndex = "100000"; // because blocklyWidhetDiv's z-index is 99999
 
-  var showWorkspace = function(event) {
+  var showCodeEditor = function(event) {
     shopContainer.style.zIndex = "0";
     event.stopPropagation();
   };
-  var hideWorkspace = function(event) {
+  var hideCodeEditor = function(event) {
     shopContainer.style.zIndex = "100000";
     event.stopPropagation();
   };
 
-  BlocklyGames.bindClick('drink-shop-robot', showWorkspace);
-  BlocklyGames.bindClick('show-workspace-button', showWorkspace);
-  BlocklyGames.bindClick('hide-workspace-button', hideWorkspace);
+  BlocklyGames.bindClick('drink-shop-robot', showCodeEditor);
+  BlocklyGames.bindClick('show-code-editor-button', showCodeEditor);
+  BlocklyGames.bindClick('hide-code-editor-zone', hideCodeEditor);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
@@ -261,7 +261,7 @@ Scope.runButtonClick = function(e) {
   resetButton.style.display = 'inline';
   // BlocklyGames.workspace.traceOn(true);
 
-  var container = document.getElementById('drink-shop-workspace-left');
+  var container = document.getElementById('drink-shop-editor-left');
   container.scrollTop = container.scrollHeight;
 
   Scope.Game.reset();

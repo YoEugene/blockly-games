@@ -90,6 +90,7 @@ html[dir="RTL"] button.primary {
   /*margin-bottom: 10px;*/
   /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);*/
 }
+
 #runButtonWrapper {
   text-align: center;
 }
@@ -97,37 +98,15 @@ html[dir="RTL"] button.primary {
 #shop-wrapper {
   width: 100vw;
   height: 56.25vw;
-  /* 100/56.25 = 1.778 */
+  /* 16/9 = 1.778 */
   max-height: 100vh;
   max-width: 177.78vh;
-  /* 16/9 = 1.778 */
   margin: auto;
-  /*position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;*/
 }
 
 .clickable {
   cursor: pointer;
 }
-/*
-.hidden-text {
-  display: none;
-}
-
-#drink-shop-material-list:hover #drink-shop-material-list-text {
-  display: block;
-}
-
-#drink-shop-price-list:hover #drink-shop-price-list-text {
-  display: block;
-}
-
-#drink-shop-robot:hover #drink-shop-robot-text {
-  display: block;
-} */
 
 .black-text-with-shadow {
   text-shadow: 4px rgba(255, 255, 255, 0.75);
@@ -147,7 +126,8 @@ html[dir="RTL"] button.primary {
   z-index: 100000;
 }
 
-.show-hide-workspace-button {
+
+.show-hide-code-editor-button {
   background-color: white;
   color: #404040;
   border-radius: 8px 0 0 8px;
@@ -156,20 +136,13 @@ html[dir="RTL"] button.primary {
   text-align: center;
 }
 
-#show-workspace-button {
+#show-code-editor-button {
   position: absolute;
   right: 0;
   top: 20px;
 }
 
-#hide-workspace-button {
-  width: 50px;
-  position: absolute;
-  top: 20px;
-  left: 0;
-}
-
-#drink-shop-workspace-container {
+#drink-shop-code-editor-container {
   z-index: 5;
   position: absolute;
   top: 0;
@@ -179,7 +152,21 @@ html[dir="RTL"] button.primary {
   background-color: rgba(0, 0, 0, 0.25)
 }
 
-#drink-shop-workspace {
+#hide-code-editor-zone {
+  width: 50px;
+  position: relative;
+  display: inline-block;
+  height: 100%;
+}
+
+#hide-code-editor-button {
+  position: absolute;
+  top: 20px;
+  right: 0;
+}
+
+#drink-shop-code-editor {
+  display: inline-block;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -188,7 +175,7 @@ html[dir="RTL"] button.primary {
   background-color: white;
 }
 
-#drink-shop-workspace-left {
+#drink-shop-code-editor-left {
   position: relative;
   /* width: 430px; */
   width: calc(65% - 340px); /* to calc */
@@ -197,8 +184,8 @@ html[dir="RTL"] button.primary {
   overflow: scroll;
 }
 
-#drink-shop-workspace .blocklyFlyout,
-#drink-shop-workspace .blocklyFlyoutScrollbar {
+#drink-shop-code-editor .blocklyFlyout,
+#drink-shop-code-editor .blocklyFlyoutScrollbar {
   z-index: 0;
 }
 

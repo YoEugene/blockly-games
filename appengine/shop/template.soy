@@ -10,13 +10,13 @@
   <div id="drink-shop-game-container">
     <div id="drink-shop-shop-container">
       {call .svgShop /}
-      <div id="show-workspace-button" class="show-hide-workspace-button">
+      <div id="show-code-editor-button" class="show-hide-code-editor-button">
         <div>&#x25c0;</div>
         <div>編輯</div>
         <div>程式</div>
       </div>
     </div>
-    {call .workspace /}
+    {call .codeEditor /}
   </div>
   {call BlocklyGames.soy.dialog /}
   {call BlocklyGames.soy.doneDialog /}
@@ -158,30 +158,26 @@
 
 
 /**
- * workspace modal
+ * code editor modal
  */
-{template .workspace}
-  <div id="drink-shop-workspace-container">
-    <div id="hide-workspace-button" class="show-hide-workspace-button">
-      <div>&#x25b6;</div>
-      <div>隱藏</div>
+{template .codeEditor}
+  <div id="drink-shop-code-editor-container">
+    // left zone: click to hide code-editor
+    <div id="hide-code-editor-zone">
+      <div id="hide-code-editor-button" class="show-hide-code-editor-button">
+        <div>&#x25b6;</div>
+        <div>隱藏</div>
+      </div>
     </div>
-    <div id="drink-shop-workspace">
-      // left part: workspace
-      <div id="drink-shop-workspace-left">
+
+    <div id="drink-shop-code-editor">
+      // left part
+      <div id="drink-shop-code-editor-left">
         <div id="drink-shop-level-desc-container">
           <div class="drink-shop-level-desc-title">關卡敘述</div>
           <div id="drink-shop-level-desc" class="drink-shop-level-desc-text"></div>
           <div class="drink-shop-level-desc-title">關卡目標</div>
           <div id="drink-shop-level-desc-goal" class="drink-shop-level-desc-text"></div>
-        </div>
-        <div id="runButtonWrapper">
-          <button id="runButton" class="primary" title="{msg meaning="DrinkShop_runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the robot."}Makes the robot do what the blocks say.{/msg}">
-            <span>&#9658; {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}</span>
-          </button>
-          <button id="resetButton" class="primary" style="display: none" title="{msg meaning="DrinkShop_resetTooltip" desc="tooltip - Pressing this button to restart the game."}Undo what the robot has done.{/msg}">
-            <span>&#8634; {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}</span>
-          </button>
         </div>
         {call .svgWorkspace /}
         <div id="capacityBubble">
@@ -192,6 +188,16 @@
       // code editor
       {call .toolbox /}
       <div id="blockly"></div>
+
+      // run button
+      <div id="runButtonWrapper">
+        <button id="runButton" class="primary" title="{msg meaning="DrinkShop_runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the robot."}Makes the robot do what the blocks say.{/msg}">
+          <span>&#9658; {msg meaning="Games.runProgram" desc="IBID"}Run Program{/msg}</span>
+        </button>
+        <button id="resetButton" class="primary" style="display: none" title="{msg meaning="DrinkShop_resetTooltip" desc="tooltip - Pressing this button to restart the game."}Undo what the robot has done.{/msg}">
+          <span>&#8634; {msg meaning="Games.resetProgram" desc="IBID"}Reset{/msg}</span>
+        </button>
+      </div>
     </div>
   </div>
 {/template}
