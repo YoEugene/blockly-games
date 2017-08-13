@@ -44,6 +44,7 @@ Scope.init = function() {
 
   var rtl = BlocklyGames.isRtl();  // right to left?
   var blocklyDiv = document.getElementById('blockly');
+
   // var visualization = document.getElementById('visualization');
   // var onresize = function(e) {
   //   // var top = visualization.offsetTop;
@@ -77,6 +78,11 @@ Scope.init = function() {
   // load defualt blocks or load stored blocks from Local Storage / Session Storage / DB
   var defaultXml = '';
   BlocklyInterface.loadBlocks(defaultXml, false);
+
+  // resize blocklyDiv width
+  var blocklyFlyoutWidth = document.getElementsByClassName('blocklyFlyout')[0].clientWidth;
+  document.getElementById('blockly').style.width = "calc(35vw + " + blocklyFlyoutWidth + "px)";
+  document.getElementById('drink-shop-code-editor-left').style.width = "calc(65vw - 50px - " + blocklyFlyoutWidth + "px)";
 
 //   Maze.reset(true);
 //   BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity()});
@@ -260,9 +266,6 @@ Scope.runButtonClick = function(e) {
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   // BlocklyGames.workspace.traceOn(true);
-
-  var container = document.getElementById('drink-shop-editor-left');
-  container.scrollTop = container.scrollHeight;
 
   Scope.Game.reset();
   Scope.execute();
