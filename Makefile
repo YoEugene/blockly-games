@@ -56,7 +56,7 @@ shop-i18n-en: extract-msgs
 	$(eval APP := shop)
 	$(eval LANG := en)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)
-	mkdir -p appengine/$(APP)/public/generated
+	mkdir -p appengine/$(APP)/public/generated/$(LANG)
 	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
 	python build-app-public.py $(APP) $(LANG)
 
@@ -64,7 +64,7 @@ shop-i18n-zh: extract-msgs
 	$(eval APP := shop)
 	$(eval LANG := zh-hant)
 	$(eval TEMPLATE := appengine/$(APP)/template.soy)
-	mkdir -p appengine/$(APP)/public/generated
+	mkdir -p appengine/$(APP)/public/generated/$(LANG)
 	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
 	python build-app-public.py $(APP) $(LANG)
 
@@ -74,10 +74,12 @@ shop: extract-msgs
 	mkdir -p appengine/$(APP)/public/generated
 
 	$(eval LANG := en)
+	mkdir -p appengine/$(APP)/public/generated/$(LANG)
 	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
 	python build-app-public.py $(APP) $(LANG)
 
 	$(eval LANG := zh-hant)
+	mkdir -p appengine/$(APP)/public/generated/$(LANG)
 	i18n/json_to_js.py --path_to_jar third-party --output_dir appengine/$(APP)/public/generated --template $(TEMPLATE) --key_file json/keys.json json/$(LANG).json
 	python build-app-public.py $(APP) $(LANG)
 
