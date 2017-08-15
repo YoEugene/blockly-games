@@ -100,6 +100,45 @@ Blockly.JavaScript['DrinkShop_fillCupWith'] = function(block) {
   // return 'window.alert("' + drink_str + '");\n';
 };
 
+Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('DrinkShop_fillCupWithVolume') + " %1 %2 ml",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "drinkType",
+          "options": [
+            [ BlocklyGames.getMsg('DrinkShop_blackTea'), "black tea" ],
+            [ BlocklyGames.getMsg('DrinkShop_greenTea'), "green tea" ],
+            [ BlocklyGames.getMsg('DrinkShop_milk'), "milk" ],
+            [ BlocklyGames.getMsg('DrinkShop_ice'), "ice" ],
+            [ BlocklyGames.getMsg('DrinkShop_boba'), "boba" ],
+          ]
+        },
+        {
+          "type": "field_number",
+          "name": "volume",
+          "value": 500,
+          "min": 0
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Scope_Blocks.MOVEMENT_HUE,
+      "tooltip": BlocklyGames.getMsg('DrinkShop_fillCupWithVolume'),
+    });
+  }
+}
+Blockly.JavaScript['DrinkShop_fillCupWithVolume'] = function(block) {
+  var drinkType = block.getFieldValue('drinkType');
+  var volume = block.getFieldValue('volume');
+  // var value_drink_str = Blockly.JavaScript.valueToCode(block, 'drink_str', Blockly.JavaScript.ORDER_ATOMIC);
+
+  return 'fillCupWith("' + drinkType + '", ' + volume + ');\n';
+  // return 'window.alert("' + drink_str + '");\n';
+};
+
 Blockly.Blocks['DrinkShop_coverCup'] = {
   init: function() {
     this.jsonInit({

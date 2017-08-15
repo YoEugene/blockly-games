@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-08-13 17:49:11.744619",
+		"lastupdated": "2017-08-15 17:57:29.265877",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -230,10 +230,16 @@
 	"Pond.sniperName": "Sniper",
 	"DrinkShop_getNewCup": "get a new cup",
 	"DrinkShop_fillCupWith": "fill the cup with",
+	"DrinkShop_fillCupWithVolume": "fill the cup with",
 	"DrinkShop_coverCup": "cover the cup",
 	"DrinkShop_serve": "serve the cup",
 	"DrinkShop_blackTea": "black tea",
 	"DrinkShop_greenTea": "green tea",
+	"DrinkShop_milkTea": "milk tea",
+	"DrinkShop_milkGreenTea": "milk green tea",
+	"DrinkShop_milk": "milk",
+	"DrinkShop_ice": "ice",
+	"DrinkShop_boba": "boba",
 	"DrinkShop_msg_noServedDrink": "The customer didn't get their tea.",
 	"DrinkShop_msg_servedMultiple": "The customer received more than 1 cup of drink.",
 	"DrinkShop_msg_cupEmpty": "The cup is empty.",

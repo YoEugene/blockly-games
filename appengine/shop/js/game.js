@@ -182,6 +182,31 @@ Game.commands.fillCupWith = function(drink) {
   Game.spendTime(Game.props.robot.actions.fillCup.timeSpent);
 };
 
+Game.commands.fillCupWithVolume = function(drink, volume) {
+  var robot = Game.getRobot();
+  if (!robot.holding || robot.holding.class != "cup") {
+    console.log("command error: robot not holding anything");
+    throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_noCup');
+  }
+  // if (robot.holding.class !== "cup") {
+  //   console.log("command error: robot not holding a cup");
+  //   throw "command error: There is no cup in my hand."; // "執行 xxx 時發生錯誤\n原因：手上沒有杯子"
+  // }
+  if (!!robot.holding.isCovered) {
+    console.log("command error: cup has been covered");
+    throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_cupCovered');
+  }
+
+  robot.holding.filled = drink; // ex: "black tea"
+  if (drink == "black tea") {
+    Game.UI.fillCup("#cf5a36");
+  }
+  else {
+    Game.UI.fillCup("#e4db3d");
+  }
+  Game.spendTime(Game.props.robot.actions.fillCup.timeSpent);
+};
+
 Game.commands.coverCup = function(drink) {
   console.log("coverCup");
   var robot = Game.getRobot();

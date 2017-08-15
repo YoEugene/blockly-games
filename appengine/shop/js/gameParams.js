@@ -57,11 +57,14 @@ Shop.Game.Params.levels = [
   undefined,
   // Level 1
   {
-    maxBlocks: 4,
-    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWith', 'DrinkShop_serve', 'DrinkShop_coverCup'],
-    desc: "歡迎來到你的飲料店！<br />這裡的員工只有一個人，而且是一個機器人！ <br />你可以對他下各式各樣的指令，讓他幫你做飲料給客人。<br /><br />啊，有客人來了！<br />你可以讓機器人做出一杯紅茶並賣給他嗎？",
+    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWith', 'DrinkShop_coverCup'],
+    goal: "製作一杯紅茶。",
+    desc: '請將程式積木拉到右邊空白的程式編輯區，<br />' +
+    '並由上到下依照正確順序拼接，<br />' +
+    '然後按下下方的「執行程式」按鈕，<br />' +
+    '讓機器人幫你製作一杯紅茶。<br />' +
+    '<img src=\"shop/public/hints/zh/level_1_hint.png\" class=\"hint-img\" alt=\"level 1 hint\" width=\"250\">',
     // 歡迎來到你的飲料店！<br />這裡的員工只有一人，而且是一個機器人！ <br />你可以對他下各式各樣的指令，讓他幫你做飲料和賣飲料給客人。<br />事不宜遲，快下指令讓他幫你做一杯紅茶吧！
-    goal: "在30秒內製作一杯紅茶並賣給客人。<br />（請將程式積木拉到右邊的程式編輯區，並依照正確順序拼接，然後按下下方的「執行程式」按鈕，讓機器人幫你製作一杯紅茶。）<br /><img src=\"shop/public/hints/zh/level_1_hint.png\" class=\"hint-img\" alt=\"level 1 hint\" width=\"250\">",
     getInitialShopState: function() {
       return {
         money: 0,
@@ -76,11 +79,35 @@ Shop.Game.Params.levels = [
       return true;
     },
   },
+  // Level 2
   {
-    maxBlocks: 4,
-    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWith', 'DrinkShop_serve', 'DrinkShop_coverCup'],
-    desc: "下一個客人來了<br />現在，讓機器人做出一杯綠茶吧<br />",
-    goal: "在30秒內製作一杯綠茶並賣給客人。<br />（你可以點擊程式積木中的選單來選擇參數）<br /><img src=\"shop/public/hints/zh/level_2_hint.png\" class=\"hint-img\" alt=\"level 2 hint\" width=\"250\">",
+    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWith', 'DrinkShop_coverCup'],
+    goal: "製作一杯綠茶。",
+    // desc: "你可以點擊程式積木中的選單來選擇不同的飲料。<br /><img src=\"shop/public/hints/zh/level_2_hint.png\" class=\"hint-img\" alt=\"level 2 hint\" width=\"250\">",
+    desc: '你可以點擊程式積木中的選單來選擇不同的飲料。<br />' +
+    '<img src="shop/public/hints/zh/level_2_hint.png" class="hint-img" alt="level 2 hint" width="250">',
+    getInitialShopState: function() {
+      return {
+        money: 0,
+        remainingTime: 30,
+        materials: {
+          greenTea: 500,
+          cup: 1,
+        }
+      };
+    },
+    checkComplete: function() {
+      return true;
+    },
+  },
+  // Level 3
+  {
+    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWithVolume', 'DrinkShop_coverCup'],
+    goal: "製作一杯奶茶。",
+    desc: '你可以輸入不同的數字來改變飲料倒入的量。<br />' +
+    '<img src="shop/public/hints/zh/level_3_hint.png" class="hint-img" alt="level 3 hint" width="250">' +
+    '杯子的容量是500毫升。<br />' +
+    '本店的奶茶，紅茶：牛奶的比例是7:3<br />',
     getInitialShopState: function() {
       return {
         money: 0,

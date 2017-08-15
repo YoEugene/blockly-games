@@ -132,6 +132,8 @@ Scope.initInterpreter = function(interpreter, scope) {
 //   interpreter.setProperty(scope, 'moveForward',
 //       interpreter.createNativeFunction(wrapper));
 
+  /* create native functions for commands in interpreter */
+
   var commandNames = Object.keys(Scope.Game.commands);
   commandNames.map(function(commandName) {
     interpreter.setProperty(scope, commandName, interpreter.createNativeFunction(Scope.Game.commands[commandName]));

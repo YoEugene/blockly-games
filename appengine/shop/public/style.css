@@ -204,6 +204,7 @@ html[dir="RTL"] button.primary {
 
 .drink-shop-level-desc-text {
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .hint-img {
