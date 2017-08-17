@@ -148,13 +148,13 @@ Game.earnMoney = function(money) {
   Game.UI.updateMoney(Game.state.shop.money);
 };
 
-Game.calcFilledVolume = function(cup) {
-  var filledVolume = 0;
-  Object.keys(cup.filled).forEach(function(materialClass) {
-    filledVolume += cup.filled[materialClass];
-  });
-  return filledVolume;
-}
+// Game.calcFilledVolume = function(cup) {
+//   var filledVolume = 0;
+//   Object.keys(cup.filled).forEach(function(materialClass) {
+//     filledVolume += cup.filled[materialClass];
+//   });
+//   return filledVolume;
+// }
 
 // block methods
 
@@ -190,7 +190,12 @@ Game.commands.fillCupWith = function(materialClass) {
   }
 
   var cup = robot.holding;
-  var volume = cup.capacity - cup.filledVolume;
+  var volume = cup.capacity; // - cup.filledVolume;
+
+  // error: drink will overflow
+  if (volume > cup.capacity - cup.filledVolume) {
+    throw Game.errorMessage('DrinkShop_fillCupWithVolume', 'DrinkShop_msg_drinkOverflow');
+  }
 
   Game.spendTime(Game.constants.robot.actions.fillCup.timeSpent);
 
@@ -220,6 +225,8 @@ Game.commands.fillCupWithVolume = function(materialClass, volume) {
   }
 
   var cup = robot.holding;
+
+  // error: drink will overflow
   if (volume > cup.capacity - cup.filledVolume) {
     console.log("command error: drink will overflow");
     throw Game.errorMessage('DrinkShop_fillCupWithVolume', 'DrinkShop_msg_drinkOverflow');
@@ -227,14 +234,17 @@ Game.commands.fillCupWithVolume = function(materialClass, volume) {
 
   Game.spendTime(Game.constants.robot.actions.fillCup.timeSpent);
 
-  // data
-  if (!cup.filled.hasOwnProperty(materialClass)) {
-    cup.filled[materialClass] = 0;
+  if (volume > 0) {
+    // data
+    if (!cup.filled.hasOwnProperty(materialClass)) {
+      cup.filled[materialClass] = 0;
+    }
+    cup.filled[materialClass] += volume;
+    cup.filledVolume += volume;
+    // UI
+    Game.UI.updateCup(cup);
   }
-  cup.filled[materialClass] += volume;
-  cup.filledVolume += volume;
-  // UI
-  Game.UI.updateCup(cup);
+  console.log(cup);
 };
 
 Game.commands.coverCup = function(drink) {

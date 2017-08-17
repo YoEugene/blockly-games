@@ -64,7 +64,6 @@ Shop.Game.Config.levels = [
     '然後按下下方的「執行程式」按鈕，<br />' +
     '讓機器人幫你製作一杯紅茶。<br />' +
     '<img src=\"shop/public/hints/zh/level_1_hint.png\" class=\"hint-img\" alt=\"level 1 hint\" width=\"250\">',
-    // 歡迎來到你的飲料店！<br />這裡的員工只有一人，而且是一個機器人！ <br />你可以對他下各式各樣的指令，讓他幫你做飲料和賣飲料給客人。<br />事不宜遲，快下指令讓他幫你做一杯紅茶吧！
     getInitialShopState: function() {
       return {
         money: 0,
@@ -88,10 +87,11 @@ Shop.Game.Config.levels = [
         throw Game.levelFailedMessage('DrinkShop_msg_cupEmpty');
       }
 
-      // not green tea in cup
+      // not black tea in cup
       if (!cup.filled.hasOwnProperty("black tea")) {
         throw Game.levelFailedMessage('DrinkShop_msg_notBlackTea');
       }
+      // TODO: check more
 
       // cup not covered
       if (!cup.isCovered) {
@@ -105,7 +105,6 @@ Shop.Game.Config.levels = [
   {
     blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWith', 'DrinkShop_coverCup'],
     goal: "製作一杯綠茶。",
-    // desc: "你可以點擊程式積木中的選單來選擇不同的飲料。<br /><img src=\"shop/public/hints/zh/level_2_hint.png\" class=\"hint-img\" alt=\"level 2 hint\" width=\"250\">",
     desc: '你可以點擊程式積木中的選單來選擇不同的飲料。<br />' +
     '<img src="shop/public/hints/zh/level_2_hint.png" class="hint-img" alt="level 2 hint" width="250">',
     getInitialShopState: function() {
@@ -135,6 +134,7 @@ Shop.Game.Config.levels = [
       if (!cup.filled.hasOwnProperty("green tea")) {
         throw Game.levelFailedMessage('DrinkShop_msg_notGreenTea');
       }
+      // TODO: check more
 
       // cup not covered
       if (!cup.isCovered) {
@@ -163,6 +163,47 @@ Shop.Game.Config.levels = [
       };
     },
     checkComplete: function() {
+      var robot = Game.getRobot();
+      // not holding a cup
+      if (!robot.holding || robot.holding.class !== "cup") {
+        throw Game.levelFailedMessage('DrinkShop_msg_noCup');
+      }
+
+      var cup = robot.holding;
+      // cup is empty
+      if (Object.keys(cup.filled).length === 0) {
+        throw Game.levelFailedMessage('DrinkShop_msg_cupEmpty');
+      }
+
+      // no black tea in cup
+      if (!cup.filled.hasOwnProperty("black tea")) {
+        throw Game.levelFailedMessage('DrinkShop_msg_noBlackTea');
+      }
+      // no milk in cup
+      if (!cup.filled.hasOwnProperty("milk")) {
+        throw Game.levelFailedMessage('DrinkShop_msg_noMilk');
+      }
+
+      // cup not full
+      if (cup.filledVolume < 499.9) {
+        throw Game.levelFailedMessage('DrinkShop_msg_cupNotFull');
+      }
+
+      // not only black tea and milk
+      if (Object.keys(cup.filled).length > 2) {
+        throw Game.levelFailedMessage('DrinkShop_msg_notOnlyBlackTeaAndMilk');
+      }
+
+      // not correct proportion
+      if (cup.filled["black tea"] !== 300 || cup.filled["milk"] !== 200) {
+        throw Game.levelFailedMessage('DrinkShop_msg_notCorrectProportion');
+      }
+
+      // cup not covered
+      if (!cup.isCovered) {
+        throw Game.levelFailedMessage('DrinkShop_msg_cupNotCovered');
+      }
+
       return true;
     },
   },
