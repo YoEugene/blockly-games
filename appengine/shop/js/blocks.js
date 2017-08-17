@@ -135,7 +135,7 @@ Blockly.JavaScript['DrinkShop_fillCupWithVolume'] = function(block) {
   var volume = block.getFieldValue('volume');
   // var value_drink_str = Blockly.JavaScript.valueToCode(block, 'drink_str', Blockly.JavaScript.ORDER_ATOMIC);
 
-  return 'fillCupWith("' + drinkType + '", ' + volume + ');\n';
+  return 'fillCupWithVolume("' + drinkType + '", ' + volume + ');\n';
   // return 'window.alert("' + drink_str + '");\n';
 };
 

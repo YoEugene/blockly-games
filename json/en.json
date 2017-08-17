@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-08-15 17:57:29.265877",
+		"lastupdated": "2017-08-17 15:21:29.922143",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -246,10 +246,12 @@
 	"DrinkShop_msg_notBlackTea": "It's not black tea.",
 	"DrinkShop_msg_notGreenTea": "It's not green tea.",
 	"DrinkShop_msg_cupNotCovered": "The cup is not covered.",
+	"DrinkShop_msg_levelFailed": "Level Failed.",
 	"DrinkShop_msg_errorIn": "An error occured in '%1'",
 	"DrinkShop_msg_reason": "Reason",
 	"DrinkShop_msg_noCup": "There is no cup in my hand.",
 	"DrinkShop_msg_cupCovered": "The cup has been covered.",
+	"DrinkShop_msg_drinkOverflow": "The cup is full. The drink will overflow.",
 	"Games.shop": "Drink Shop",
 	"DrinkShop_runTooltip": "Makes the robot do what the blocks say.",
 	"DrinkShop_resetTooltip": "Undo what the robot has done."

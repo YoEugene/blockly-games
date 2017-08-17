@@ -10,7 +10,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Shop.Blocks');
 goog.require('Shop.Game');
-goog.require('Shop.Game.Params');
+goog.require('Shop.Game.Config');
 goog.require('Shop.soy');
 
 BlocklyGames.NAME = 'shop';
@@ -58,7 +58,7 @@ Scope.init = function() {
   var toolbox = document.getElementById('toolbox');
   var scale = 1.25;
   // init blocks
-  var blockTypes = Scope.Game.Params.levels[BlocklyGames.LEVEL].blocks;
+  var blockTypes = Scope.Game.Config.levels[BlocklyGames.LEVEL].blocks;
   for (var i = 0; i < blockTypes.length; i++) {
     var blockType = blockTypes[i];
     var block = document.createElement("block");
@@ -94,14 +94,14 @@ Scope.init = function() {
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
   var shopContainer = document.getElementById('drink-shop-shop-container');
-  shopContainer.style.zIndex = "100000"; // because blocklyWidhetDiv's z-index is 99999
+  shopContainer.style.zIndex = "7"; // because blocklyWidgetDiv's z-index is 99999
 
   var showCodeEditor = function(event) {
     shopContainer.style.zIndex = "0";
     event.stopPropagation();
   };
   var hideCodeEditor = function(event) {
-    shopContainer.style.zIndex = "100000";
+    shopContainer.style.zIndex = "7";
     event.stopPropagation();
   };
 
@@ -213,23 +213,26 @@ Scope.execute = function() {
 
 Scope.interpretCode = function(interpreter, stepCount) {
   try {
+    // infinite loop
     if (stepCount > Scope.MAX_STEPS) {
       throw Infinity;
     }
+    // next step
     if (interpreter.step()) {
       setTimeout(function() {
         Scope.interpretCode(interpreter, stepCount + 1);
       }, Scope.STEP_SPEED);
     }
+    // when code is fully executed, check if the user has passed the level
     else {
-      setTimeout(function() {
-        if (Scope.Game.checkLevelDone(BlocklyGames.LEVEL)) {
-          BlocklyInterface.saveToLocalStorage();
-          BlocklyDialogs.congratulations();
-        }
-      }, Scope.STEP_SPEED);
+      if (Shop.Game.Config.levels[BlocklyGames.LEVEL].checkComplete()) {
+        BlocklyInterface.saveToLocalStorage();
+        BlocklyDialogs.congratulations();
+      }
+      // else will throw error message
     }
   } catch (e) {
+    console.log(e);
     if (e === Infinity) {
       window.alert(BlocklyGames.getMsg('DrinkShop_msg_tooManySteps'));
     } else if (typeof e === 'string') {

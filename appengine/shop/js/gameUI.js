@@ -34,6 +34,28 @@ UI.reset = function(shopState) {
 
 // private
 
+UI.rgbaToStr = function(color) {
+  return "rgba({0}, {1}, {2}, {3})".format(
+    parseInt(color.r),
+    parseInt(color.g),
+    parseInt(color.b),
+    color.a
+  );
+}
+
+UI.mixNum = function(num1, volume1, num2, volume2) {
+  return (num1 * volume1 + num2 * volume2) / (volume1 + volume2);
+}
+
+UI.mixColor = function(color1, volume1, color2, volume2) {
+  return {
+    r: UI.mixNum(color1.r, volume1 * color1.a, color2.r, volume2 * color2.a),
+    g: UI.mixNum(color1.g, volume1 * color1.a, color2.g, volume2 * color2.a),
+    b: UI.mixNum(color1.b, volume1 * color1.a, color2.b, volume2 * color2.a),
+    a: Math.max(color1.a, color2.a),
+  };
+}
+
 UI.drawObject = function(objConfig, parent) {
   // var object = UI.Config[objName];
   var attributes = objConfig.attributes;
@@ -51,8 +73,6 @@ UI.removeChildren = function(element) {
   }
 };
 
-// public
-
 UI.cleanWorkspace = function() {
   UI.removeChildren(UI.dom.workspace);
 };
@@ -60,6 +80,27 @@ UI.cleanWorkspace = function() {
 UI.drawCup = function() {
   UI.drawn.cup = UI.drawObject(UI.Config.cup, UI.dom.workspace);
   UI.drawObject(UI.Config.cupLight, UI.dom.workspace);
+};
+
+// public API
+
+UI.getNewCup = function(cup) {
+  Game.UI.cleanWorkspace();
+  Game.UI.drawCup();
+};
+
+UI.updateCup = function(cup) {
+  var drinkColor = {r: 0, g: 0, b: 0, a: 0};
+  var drinkVolume = 0; // for mixing color
+
+  Object.keys(cup.filled).forEach(function(materialClass) {
+    var materialVolume = cup.filled[materialClass];
+    var materialColor = UI.Config.getMaterialColor(materialClass);
+    drinkColor = UI.mixColor(drinkColor, drinkVolume, materialColor, materialVolume);
+    drinkVolume += materialVolume;
+  });
+
+  UI.drawn.cup.setAttribute('fill', UI.rgbaToStr(drinkColor));
 };
 
 UI.fillCup = function(color) {

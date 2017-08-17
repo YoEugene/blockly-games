@@ -8,7 +8,7 @@ goog.provide('Shop.Game');
 goog.require('Blockly.JavaScript');
 goog.require('Shop.Game.UI');
 goog.require('Shop.utils');
-goog.require('Shop.Game.Params');
+goog.require('Shop.Game.Config');
 
 var Game = Shop.Game;
 // Game.svg = document.getElementById('svgShop');
@@ -21,8 +21,8 @@ Game.levels
 
 // Game.init = function(levelSettings) {
 Game.init = function(level) {
-  Game.props = Shop.Game.Params.props;
-  Game.levelConfig = Shop.Game.Params.levels[level];
+  Game.constants = Shop.Game.Config.constants;
+  Game.levelConfig = Shop.Game.Config.levels[level];
 
   Game.initState();
   Game.UI.init(Game.state.shop);
@@ -117,12 +117,19 @@ Game.checkLevelDone = function(level) {
     }
     return true;
   }
-  return false;
+  return true;
 };
 
 Game.errorMessage = function(cmdKey, msgKey) {
   return BlocklyGames.getMsg('DrinkShop_msg_errorIn').replace('%1', BlocklyGames.getMsg(cmdKey)) + '\n'
-    + BlocklyGames.getMsg('DrinkShop_msg_reason') + ': ' + BlocklyGames.getMsg(msgKey);
+    // + BlocklyGames.getMsg('DrinkShop_msg_reason') + ': '
+    + BlocklyGames.getMsg(msgKey);
+};
+
+Game.levelFailedMessage = function(msgKey) {
+  return BlocklyGames.getMsg('DrinkShop_msg_levelFailed') + '\n'
+    // + BlocklyGames.getMsg('DrinkShop_msg_reason') + ': '
+    + BlocklyGames.getMsg(msgKey);
 };
 
 Game.spendTime = function(timeSpent) {
@@ -141,82 +148,105 @@ Game.earnMoney = function(money) {
   Game.UI.updateMoney(Game.state.shop.money);
 };
 
+Game.calcFilledVolume = function(cup) {
+  var filledVolume = 0;
+  Object.keys(cup.filled).forEach(function(materialClass) {
+    filledVolume += cup.filled[materialClass];
+  });
+  return filledVolume;
+}
+
 // block methods
 
 Game.commands = {};
 
 Game.commands.getNewCup = function() {
   // data
-  // var robot = Game.getRobot();
-  Game.state.robot.holding = {class: "cup"};
+  var robot = Game.getRobot();
+  robot.holding = {
+    class: "cup",
+    capacity: 500,
+    filled: {},
+    filledVolume: 0,
+  };
   Game.state.shop.materials.cup -= 1;
-  Game.spendTime(Game.props.robot.actions.getNewCup.timeSpent);
+  Game.spendTime(Game.constants.robot.actions.getNewCup.timeSpent);
 
   // UI
-  Game.UI.cleanWorkspace();
-  Game.UI.drawCup();
+  Game.UI.getNewCup(robot.holding);
 };
 
-Game.commands.fillCupWith = function(drink) {
+Game.commands.fillCupWith = function(materialClass) {
   var robot = Game.getRobot();
+
+  // check error
   if (!robot.holding || robot.holding.class != "cup") {
-    console.log("command error: robot not holding anything");
+    console.log("command error: robot not holding a cup");
     throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_noCup');
   }
-  // if (robot.holding.class !== "cup") {
-  //   console.log("command error: robot not holding a cup");
-  //   throw "command error: There is no cup in my hand."; // "執行 xxx 時發生錯誤\n原因：手上沒有杯子"
-  // }
   if (!!robot.holding.isCovered) {
     console.log("command error: cup has been covered");
     throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_cupCovered');
   }
 
-  robot.holding.filled = drink; // ex: "black tea"
-  if (drink == "black tea") {
-    Game.UI.fillCup("#cf5a36");
+  var cup = robot.holding;
+  var volume = cup.capacity - cup.filledVolume;
+
+  Game.spendTime(Game.constants.robot.actions.fillCup.timeSpent);
+
+  if (volume > 0) {
+    // data
+    if (!cup.filled.hasOwnProperty(materialClass)) {
+      cup.filled[materialClass] = 0;
+    }
+    cup.filled[materialClass] += volume;
+    cup.filledVolume += volume;
+    // UI
+    Game.UI.updateCup(cup);
   }
-  else {
-    Game.UI.fillCup("#e4db3d");
-  }
-  Game.spendTime(Game.props.robot.actions.fillCup.timeSpent);
 };
 
-Game.commands.fillCupWithVolume = function(drink, volume) {
+Game.commands.fillCupWithVolume = function(materialClass, volume) {
   var robot = Game.getRobot();
-  if (!robot.holding || robot.holding.class != "cup") {
-    console.log("command error: robot not holding anything");
+
+  // check error
+  if (!robot.holding || robot.holding.class !== "cup") {
+    console.log("command error: robot not holding a cup");
     throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_noCup');
   }
-  // if (robot.holding.class !== "cup") {
-  //   console.log("command error: robot not holding a cup");
-  //   throw "command error: There is no cup in my hand."; // "執行 xxx 時發生錯誤\n原因：手上沒有杯子"
-  // }
   if (!!robot.holding.isCovered) {
     console.log("command error: cup has been covered");
     throw Game.errorMessage('DrinkShop_fillCupWith', 'DrinkShop_msg_cupCovered');
   }
 
-  robot.holding.filled = drink; // ex: "black tea"
-  if (drink == "black tea") {
-    Game.UI.fillCup("#cf5a36");
+  var cup = robot.holding;
+  if (volume > cup.capacity - cup.filledVolume) {
+    console.log("command error: drink will overflow");
+    throw Game.errorMessage('DrinkShop_fillCupWithVolume', 'DrinkShop_msg_drinkOverflow');
   }
-  else {
-    Game.UI.fillCup("#e4db3d");
+
+  Game.spendTime(Game.constants.robot.actions.fillCup.timeSpent);
+
+  // data
+  if (!cup.filled.hasOwnProperty(materialClass)) {
+    cup.filled[materialClass] = 0;
   }
-  Game.spendTime(Game.props.robot.actions.fillCup.timeSpent);
+  cup.filled[materialClass] += volume;
+  cup.filledVolume += volume;
+  // UI
+  Game.UI.updateCup(cup);
 };
 
 Game.commands.coverCup = function(drink) {
   console.log("coverCup");
   var robot = Game.getRobot();
-  if (!robot.holding || robot.holding.class != "cup") {
+  if (!robot.holding || robot.holding.class !== "cup") {
     console.log("command error: robot not holding cup");
     throw Game.errorMessage('DrinkShop_coverCup', 'DrinkShop_msg_noCup');
   }
   robot.holding.isCovered = true;
   Game.UI.drawCupCap();
-  Game.spendTime(Game.props.robot.actions.coverCup.timeSpent);
+  Game.spendTime(Game.constants.robot.actions.coverCup.timeSpent);
 };
 
 Game.commands.serve = function() {
@@ -230,7 +260,7 @@ Game.commands.serve = function() {
   robot.holding = null;
 
   UI.drawHand();
-  Game.spendTime(Game.props.robot.actions.serve.timeSpent);
+  Game.spendTime(Game.constants.robot.actions.serve.timeSpent);
   Game.earnMoney(20);
 
   setTimeout(function() {
