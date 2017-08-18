@@ -6,19 +6,20 @@
 
 #blockly {
   position: absolute;
-  /* top: 15px;
-  bottom: 15px;
-  right: 15px; */
   top: 0;
   bottom: 0;
   right: 0;
-  width: calc(35vw + 320px); /* to calc */
+  /* to calc */
+  width: calc(35vw + 320px);
 }
+
 #visualization {
   position: relative;
   padding: 0 10px;
-  width: 400px; /* to calc */
+  /* to calc */
+  width: 400px;
 }
+
 #capacityBubble {
   position: absolute;
   margin-top: -0.5em;
@@ -26,21 +27,25 @@
   top: 375px;
   width: 380px;
 }
+
 html[dir="RTL"] #capacityBubble {
   left: auto;
   right: 10px;
 }
+
 #capacity {
   display: none;
   color: #fff;
   padding: 5px 1em;
   border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
+  background-color: rgba(64, 64, 64, 0.7);
   font-size: large;
 }
+
 .capacityNumber {
   font-weight: bold;
 }
+
 #sampleOneTopBlock {
   height: 80px;
   width: 250px;
@@ -53,32 +58,40 @@ html[dir="RTL"] #capacityBubble {
   padding: 0 1ex;
   cursor: default;
 }
+
 img[src$="help_up.png"] {
   margin: -20px 10px 0;
   height: 64px;
   width: 23px;
 }
+
 img[src$="help_down.png"] {
   margin: 0 10px -20px;
   height: 64px;
   width: 23px;
 }
 
+
 /* Buttons */
+
 button.primary {
   /* Can't use "text-align: start" due to IE. */
   text-align: center;
 }
+
 html[dir="RTL"] button.primary {
   text-align: right;
 }
 
+
 /* Sprited icons. */
+
 .icon21 {
   height: 21px;
   width: 21px;
   background-image: url(icons.png);
 }
+
 .link {
   background-position: 0px 0px;
 }
@@ -87,8 +100,6 @@ html[dir="RTL"] button.primary {
   padding: 0 10px;
   background-color: #eee;
   height: 60px;
-  /*margin-bottom: 10px;*/
-  /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);*/
 }
 
 #runButtonWrapper {
@@ -122,7 +133,8 @@ html[dir="RTL"] button.primary {
 }
 
 #drink-shop-shop-container {
-  width: 65vw; /* to calc */
+  /* to calc */
+  width: 65vw;
   height: 100vh;
   background-color: #e0e0e0;
   position: relative;
@@ -181,8 +193,8 @@ html[dir="RTL"] button.primary {
 
 #drink-shop-code-editor-left {
   position: relative;
-  /* width: 430px; */
-  width: calc(65vw - 370px); /* to calc */
+  /* to calc */
+  width: calc(65vw - 370px);
   height: 100%;
   padding: 15px;
   overflow: scroll;
@@ -235,4 +247,13 @@ html[dir="RTL"] button.primary {
 .svg-text-normal {
   fill: #404040;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+svg text .fa {
+  font-family: FontAwesome;
+}
+
+.status-text {
+  font-family: monospace;
+  font-size: 3.5em;
 }
