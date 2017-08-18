@@ -93,9 +93,9 @@ UI.updateCup = function(cup) {
   var drinkColor = {r: 0, g: 0, b: 0, a: 0};
   var drinkVolume = 0; // for mixing color
 
-  Object.keys(cup.filled).forEach(function(materialClass) {
-    var materialVolume = cup.filled[materialClass];
-    var materialColor = UI.Config.getMaterialColor(materialClass);
+  Object.keys(cup.filled).forEach(function(materialName) {
+    var materialVolume = cup.filled[materialName];
+    var materialColor = UI.Config.getMaterialColor(materialName);
     drinkColor = UI.mixColor(drinkColor, drinkVolume, materialColor, materialVolume);
     drinkVolume += materialVolume;
   });

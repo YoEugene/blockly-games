@@ -54,72 +54,6 @@ Game.getRobot = function() {
   return Game.state.robot;
 };
 
-Game.checkLevelDone = function(level) {
-  if (level === 1) {
-    var robot = Game.getRobot();
-    if (robot.served.length !== 1) {
-      if (robot.served.length === 0) {
-        console.log("level not done: not serving any drink");
-        window.alert(BlocklyGames.getMsg('DrinkShop_msg_noServedDrink'));
-        return false;
-      }
-      if (robot.served.length > 1) {
-        console.log("level not done: should serve only one cup of drink");
-        window.alert(BlocklyGames.getMsg('DrinkShop_msg_servedMultiple'));
-        return false;
-      }
-    }
-    if (!robot.served[0].filled) {
-      console.log("level not done: cup empty");
-      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupEmpty'));
-      return false;
-    }
-    if (robot.served[0].filled != "black tea") {
-      console.log("level not done: not black tea in the cup");
-      window.alert(BlocklyGames.getMsg('DrinkShop_msg_notBlackTea'));
-      return false;
-    }
-    if (!robot.served[0].isCovered) {
-      console.log("level not done: cup not covered");
-      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupNotCovered'));
-      return false;
-    }
-    return true;
-  }
-  if (level === 2) {
-    var robot = Game.getRobot();
-    if (robot.served.length !== 1) {
-      if (robot.served.length === 0) {
-        console.log("level not done: not serving any drink");
-        window.alert(BlocklyGames.getMsg('DrinkShop_msg_noServedDrink'));
-        return false;
-      }
-      if (robot.served.length > 1) {
-        console.log("level not done: should serve only one cup of drink");
-        window.alert(BlocklyGames.getMsg('DrinkShop_msg_servedMultiple'));
-        return false;
-      }
-    }
-    if (!robot.served[0].filled) {
-      console.log("level not done: cup empty");
-      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupEmpty'));
-      return false;
-    }
-    if (robot.served[0].filled != "green tea") {
-      console.log("level not done: not green tea in the cup");
-      window.alert(BlocklyGames.getMsg('DrinkShop_msg_notGreenTea'));
-      return false;
-    }
-    if (!robot.served[0].isCovered) {
-      console.log("level not done: cup not covered");
-      window.alert(BlocklyGames.getMsg('DrinkShop_msg_cupNotCovered'));
-      return false;
-    }
-    return true;
-  }
-  return true;
-};
-
 Game.errorMessage = function(cmdKey, msgKey) {
   return BlocklyGames.getMsg('DrinkShop_msg_errorIn').replace('%1', BlocklyGames.getMsg(cmdKey)) + '\n'
     // + BlocklyGames.getMsg('DrinkShop_msg_reason') + ': '
@@ -150,8 +84,8 @@ Game.earnMoney = function(money) {
 
 // Game.calcFilledVolume = function(cup) {
 //   var filledVolume = 0;
-//   Object.keys(cup.filled).forEach(function(materialClass) {
-//     filledVolume += cup.filled[materialClass];
+//   Object.keys(cup.filled).forEach(function(materialName) {
+//     filledVolume += cup.filled[materialName];
 //   });
 //   return filledVolume;
 // }
@@ -176,7 +110,7 @@ Game.commands.getNewCup = function() {
   Game.UI.getNewCup(robot.holding);
 };
 
-Game.commands.fillCupWith = function(materialClass) {
+Game.commands.fillCupWith = function(materialName) {
   var robot = Game.getRobot();
 
   // check error
@@ -201,17 +135,17 @@ Game.commands.fillCupWith = function(materialClass) {
 
   if (volume > 0) {
     // data
-    if (!cup.filled.hasOwnProperty(materialClass)) {
-      cup.filled[materialClass] = 0;
+    if (!cup.filled.hasOwnProperty(materialName)) {
+      cup.filled[materialName] = 0;
     }
-    cup.filled[materialClass] += volume;
+    cup.filled[materialName] += volume;
     cup.filledVolume += volume;
     // UI
     Game.UI.updateCup(cup);
   }
 };
 
-Game.commands.fillCupWithVolume = function(materialClass, volume) {
+Game.commands.fillCupWithVolume = function(materialName, volume) {
   var robot = Game.getRobot();
 
   // check error
@@ -236,19 +170,17 @@ Game.commands.fillCupWithVolume = function(materialClass, volume) {
 
   if (volume > 0) {
     // data
-    if (!cup.filled.hasOwnProperty(materialClass)) {
-      cup.filled[materialClass] = 0;
+    if (!cup.filled.hasOwnProperty(materialName)) {
+      cup.filled[materialName] = 0;
     }
-    cup.filled[materialClass] += volume;
+    cup.filled[materialName] += volume;
     cup.filledVolume += volume;
     // UI
     Game.UI.updateCup(cup);
   }
-  console.log(cup);
 };
 
 Game.commands.coverCup = function(drink) {
-  console.log("coverCup");
   var robot = Game.getRobot();
   if (!robot.holding || robot.holding.class !== "cup") {
     console.log("command error: robot not holding cup");
@@ -260,7 +192,6 @@ Game.commands.coverCup = function(drink) {
 };
 
 Game.commands.serve = function() {
-  console.log("serve");
   var robot = Game.getRobot();
   if (!robot.holding || robot.holding.class != "cup") {
     console.log("command error: robot not holding cup");
