@@ -74,7 +74,7 @@ Shop.Game.Config.levels = [
         }
       };
     },
-    checkComplete: function() {
+    checkLevelComplete: function() {
       var robot = Game.getRobot();
       // not holding a cup
       if (!robot.holding || robot.holding.class !== "cup") {
@@ -117,7 +117,7 @@ Shop.Game.Config.levels = [
         }
       };
     },
-    checkComplete: function() {
+    checkLevelComplete: function() {
       var robot = Game.getRobot();
       // not holding a cup
       if (!robot.holding || robot.holding.class !== "cup") {
@@ -162,7 +162,7 @@ Shop.Game.Config.levels = [
         }
       };
     },
-    checkComplete: function() {
+    checkLevelComplete: function() {
       var robot = Game.getRobot();
       // not holding a cup
       if (!robot.holding || robot.holding.class !== "cup") {

@@ -82,14 +82,6 @@ Game.earnMoney = function(money) {
   Game.UI.updateMoney(Game.state.shop.money);
 };
 
-// Game.calcFilledVolume = function(cup) {
-//   var filledVolume = 0;
-//   Object.keys(cup.filled).forEach(function(materialName) {
-//     filledVolume += cup.filled[materialName];
-//   });
-//   return filledVolume;
-// }
-
 // block methods
 
 Game.commands = {};

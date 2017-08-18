@@ -94,7 +94,9 @@ Scope.init = function() {
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
   var shopContainer = document.getElementById('drink-shop-shop-container');
-  shopContainer.style.zIndex = "7"; // because blocklyWidgetDiv's z-index is 99999
+  // blocklyWidgetDiv's (the dropdown menu in blockly blocks) z-index is 99999
+  // dialog's z-index is 9
+  shopContainer.style.zIndex = "7";
 
   var showCodeEditor = function(event) {
     shopContainer.style.zIndex = "0";
@@ -223,16 +225,15 @@ Scope.interpretCode = function(interpreter, stepCount) {
         Scope.interpretCode(interpreter, stepCount + 1);
       }, Scope.STEP_SPEED);
     }
-    // when code is fully executed, check if the user has passed the level
+    // when the code is fully executed, check if the user passes the level
     else {
-      if (Shop.Game.Config.levels[BlocklyGames.LEVEL].checkComplete()) {
+      if (Shop.Game.Config.levels[BlocklyGames.LEVEL].checkLevelComplete()) {
         BlocklyInterface.saveToLocalStorage();
         BlocklyDialogs.congratulations();
       }
       // else will throw error message
     }
   } catch (e) {
-    console.log(e);
     if (e === Infinity) {
       window.alert(BlocklyGames.getMsg('DrinkShop_msg_tooManySteps'));
     } else if (typeof e === 'string') {
