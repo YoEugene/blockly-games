@@ -8,6 +8,19 @@ var scale = 100;
 var middleX = scale / 2;
 var middleY = scale / 2;
 
+Config.colors = {};
+
+Config.colors["black tea"] = {r: 192, g: 64, b: 0, a: 0.5};
+Config.colors["green tea"] = {r: 224, g: 240, b: 48, a: 0.5};
+Config.colors["milk"] = {r: 255, g: 255, b: 224, a: 1};
+
+Config.getMaterialColor = function(materialName) {
+  if (Config.colors.hasOwnProperty(materialName)) {
+    return Config.colors[materialName];
+  }
+  return {r: 0, g: 0, b: 0, a: 0};
+}
+
 Config.cup = {
   topWidth: 50,
   bottomWidth: 35,

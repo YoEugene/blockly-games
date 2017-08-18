@@ -65,10 +65,7 @@ Blockly.Blocks['DrinkShop_getNewCup'] = {
   }
 }
 Blockly.JavaScript['DrinkShop_getNewCup'] = function(block) {
-  // return 'robot.getNewCup();\n';
   return 'getNewCup();\n';
-  // return 'window.alert(\'Hello World!\');\n';
-  // return 'console.log(\'Hello World!\');\n';
 };
 
 Blockly.Blocks['DrinkShop_fillCupWith'] = {
@@ -94,10 +91,43 @@ Blockly.Blocks['DrinkShop_fillCupWith'] = {
 }
 Blockly.JavaScript['DrinkShop_fillCupWith'] = function(block) {
   var drink_str = block.getFieldValue('drink_dropdown');
-  // var value_drink_str = Blockly.JavaScript.valueToCode(block, 'drink_str', Blockly.JavaScript.ORDER_ATOMIC);
-
   return 'fillCupWith("' + drink_str + '");\n';
-  // return 'window.alert("' + drink_str + '");\n';
+};
+
+Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": BlocklyGames.getMsg('DrinkShop_fillCupWithVolume') + " %1 %2 ml",
+      "args0": [
+        {
+          "type": "field_dropdown",
+          "name": "material",
+          "options": [
+            [ BlocklyGames.getMsg('DrinkShop_blackTea'), "black tea" ],
+            [ BlocklyGames.getMsg('DrinkShop_greenTea'), "green tea" ],
+            [ BlocklyGames.getMsg('DrinkShop_milk'), "milk" ],
+            [ BlocklyGames.getMsg('DrinkShop_ice'), "ice" ],
+            [ BlocklyGames.getMsg('DrinkShop_boba'), "boba" ],
+          ]
+        },
+        {
+          "type": "field_number",
+          "name": "volume",
+          "value": 500,
+          "min": 0
+        }
+      ],
+      "previousStatement": null,
+      "nextStatement": null,
+      "colour": Scope_Blocks.MOVEMENT_HUE,
+      "tooltip": BlocklyGames.getMsg('DrinkShop_fillCupWithVolume'),
+    });
+  }
+}
+Blockly.JavaScript['DrinkShop_fillCupWithVolume'] = function(block) {
+  var material = block.getFieldValue('material');
+  var volume = block.getFieldValue('volume');
+  return 'fillCupWithVolume("' + material + '", ' + volume + ');\n';
 };
 
 Blockly.Blocks['DrinkShop_coverCup'] = {
@@ -113,7 +143,6 @@ Blockly.Blocks['DrinkShop_coverCup'] = {
 }
 Blockly.JavaScript['DrinkShop_coverCup'] = function(block) {
   return 'coverCup();\n';
-  // return 'window.alert(\'Hello World!\');\n';
 };
 
 Blockly.Blocks['DrinkShop_serve'] = {
@@ -129,5 +158,4 @@ Blockly.Blocks['DrinkShop_serve'] = {
 }
 Blockly.JavaScript['DrinkShop_serve'] = function(block) {
   return 'serve();\n';
-  // return 'window.alert(\'Hello World!\');\n';
 };
