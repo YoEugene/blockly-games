@@ -280,6 +280,7 @@ All code is free and open source.
 * UI animation
 * UI.workspace.cup, UI.workspace.cupCap, ...
 * UI: serve cup to customer
+* 在block tooltip顯示動作的耗時
 
 
 # Done
