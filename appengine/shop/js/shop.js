@@ -10,6 +10,7 @@ goog.require('BlocklyGames');
 goog.require('BlocklyInterface');
 goog.require('Shop.Blocks');
 goog.require('Shop.Game');
+goog.require('Shop.Game.Config');
 goog.require('Shop.soy');
 
 BlocklyGames.NAME = 'shop';
@@ -29,6 +30,14 @@ BlocklyInterface.nextLevel = function() {
   }
 };
 
+Scope.initBlocklyDivSize = function () {
+  // resize blocklyDiv width
+  var blocklyFlyoutWidth = document.getElementsByClassName('blocklyFlyout')[0].clientWidth;
+  document.getElementById('blockly').style.width = "calc(35vw + " + blocklyFlyoutWidth + "px)";
+  document.getElementById('drink-shop-code-editor-left').style.width = "calc(65vw - 50px - " + blocklyFlyoutWidth + "px)";
+  Blockly.svgResize(BlocklyGames.workspace);
+};
+
 /**
  * Initialize Blockly and the game.  Called on page load.
  */
@@ -45,22 +54,17 @@ Scope.init = function() {
   var rtl = BlocklyGames.isRtl();  // right to left?
   var blocklyDiv = document.getElementById('blockly');
 
-  // var visualization = document.getElementById('visualization');
-  // var onresize = function(e) {
-  //   // var top = visualization.offsetTop;
-  //   // blocklyDiv.style.top = Math.max(10, top - window.pageYOffset) + 'px';
-  //   // blocklyDiv.style.left = rtl ? '10px' : '420px';
-  //   // blocklyDiv.style.width = (window.innerWidth - 430) + 'px';
-  // };
-  // window.addEventListener('scroll', function() {
-  //   onresize();
-  //   Blockly.svgResize(BlocklyGames.workspace);
-  // });
-  // window.addEventListener('resize', onresize);
-  // onresize();
-
+  /* Init Blockly */
   var toolbox = document.getElementById('toolbox');
-  var scale = 1 + (1 - (BlocklyGames.LEVEL / BlocklyGames.MAX_LEVEL)) / 3; // 1.3 ~ 1
+  var scale = 1.25;
+  // init blocks
+  var blockTypes = Scope.Game.Config.levels[BlocklyGames.LEVEL].blocks;
+  for (var i = 0; i < blockTypes.length; i++) {
+    var blockType = blockTypes[i];
+    var block = document.createElement("block");
+    block.setAttribute("type", blockType);
+    toolbox.appendChild(block);
+  }
   BlocklyGames.workspace = Blockly.inject('blockly',
       {'media': 'third-party/blockly/media/',
     //    'maxBlocks': Maze.MAX_BLOCKS,
@@ -79,10 +83,7 @@ Scope.init = function() {
   var defaultXml = '';
   BlocklyInterface.loadBlocks(defaultXml, false);
 
-  // resize blocklyDiv width
-  var blocklyFlyoutWidth = document.getElementsByClassName('blocklyFlyout')[0].clientWidth;
-  document.getElementById('blockly').style.width = "calc(35vw + " + blocklyFlyoutWidth + "px)";
-  document.getElementById('drink-shop-code-editor-left').style.width = "calc(65vw - 50px - " + blocklyFlyoutWidth + "px)";
+  Scope.initBlocklyDivSize();
 
 //   Maze.reset(true);
 //   BlocklyGames.workspace.addChangeListener(function() {Maze.updateCapacity()});
@@ -93,14 +94,16 @@ Scope.init = function() {
   BlocklyGames.bindClick('resetButton', Scope.resetButtonClick);
 
   var shopContainer = document.getElementById('drink-shop-shop-container');
-  shopContainer.style.zIndex = "100000"; // because blocklyWidhetDiv's z-index is 99999
+  // blocklyWidgetDiv's (the dropdown menu in blockly blocks) z-index is 99999
+  // dialog's z-index is 9
+  shopContainer.style.zIndex = "7";
 
   var showCodeEditor = function(event) {
     shopContainer.style.zIndex = "0";
     event.stopPropagation();
   };
   var hideCodeEditor = function(event) {
-    shopContainer.style.zIndex = "100000";
+    shopContainer.style.zIndex = "7";
     event.stopPropagation();
   };
 
@@ -130,6 +133,8 @@ Scope.initInterpreter = function(interpreter, scope) {
 //   };
 //   interpreter.setProperty(scope, 'moveForward',
 //       interpreter.createNativeFunction(wrapper));
+
+  /* create native functions for commands in interpreter */
 
   var commandNames = Object.keys(Scope.Game.commands);
   commandNames.map(function(commandName) {
@@ -210,21 +215,23 @@ Scope.execute = function() {
 
 Scope.interpretCode = function(interpreter, stepCount) {
   try {
+    // infinite loop
     if (stepCount > Scope.MAX_STEPS) {
       throw Infinity;
     }
+    // next step
     if (interpreter.step()) {
       setTimeout(function() {
         Scope.interpretCode(interpreter, stepCount + 1);
       }, Scope.STEP_SPEED);
     }
+    // when the code is fully executed, check if the user passes the level
     else {
-      setTimeout(function() {
-        if (Scope.Game.checkLevelDone(BlocklyGames.LEVEL)) {
-          BlocklyInterface.saveToLocalStorage();
-          BlocklyDialogs.congratulations();
-        }
-      }, Scope.STEP_SPEED);
+      if (Shop.Game.Config.levels[BlocklyGames.LEVEL].checkLevelComplete()) {
+        BlocklyInterface.saveToLocalStorage();
+        BlocklyDialogs.congratulations();
+      }
+      // else will throw error message
     }
   } catch (e) {
     if (e === Infinity) {

@@ -127,7 +127,7 @@ html[dir="RTL"] button.primary {
   background-color: #e0e0e0;
   position: relative;
   display: inline-block;
-  z-index: 100000;
+  /* z-index: 100000; */
 }
 
 
@@ -186,6 +186,8 @@ html[dir="RTL"] button.primary {
   height: 100%;
   padding: 15px;
   overflow: scroll;
+  text-align: center;
+  min-width: 300px;
 }
 
 #drink-shop-code-editor .blocklyFlyout,
@@ -204,6 +206,7 @@ html[dir="RTL"] button.primary {
 
 .drink-shop-level-desc-text {
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .hint-img {
