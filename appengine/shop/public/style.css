@@ -6,21 +6,18 @@
 
 #blockly {
   position: absolute;
-  /* top: 15px;
-  bottom: 15px;
-  right: 15px; */
   top: 0;
   bottom: 0;
   right: 0;
-  width: calc(35vw + 320px);
   /* to calc */
+  width: calc(35vw + 320px);
 }
 
 #visualization {
   position: relative;
   padding: 0 10px;
-  width: 400px;
   /* to calc */
+  width: 400px;
 }
 
 #capacityBubble {
@@ -103,8 +100,6 @@ html[dir="RTL"] button.primary {
   padding: 0 10px;
   background-color: #eee;
   height: 60px;
-  /*margin-bottom: 10px;*/
-  /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);*/
 }
 
 #runButtonWrapper {
@@ -138,8 +133,8 @@ html[dir="RTL"] button.primary {
 }
 
 #drink-shop-shop-container {
-  width: 65vw;
   /* to calc */
+  width: 65vw;
   height: 100vh;
   background-color: #e0e0e0;
   position: relative;
@@ -198,9 +193,8 @@ html[dir="RTL"] button.primary {
 
 #drink-shop-code-editor-left {
   position: relative;
-  /* width: 430px; */
-  width: calc(65vw - 370px);
   /* to calc */
+  width: calc(65vw - 370px);
   height: 100%;
   padding: 15px;
   overflow: scroll;
