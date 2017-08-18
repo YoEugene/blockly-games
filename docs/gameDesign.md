@@ -12,12 +12,9 @@ var cup = {
     "black tea": 300,
     "milk": 200,
   },
+  filledVolume: 500,
 };
 
-var material = {
-  class: "black tea",
-  volume: 500,
-}
-
-cup.filled.push(material);
+cup.filled["black tea"] += 300;
+cup.filledVolume += 300;
 ```
