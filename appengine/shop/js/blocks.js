@@ -65,10 +65,7 @@ Blockly.Blocks['DrinkShop_getNewCup'] = {
   }
 }
 Blockly.JavaScript['DrinkShop_getNewCup'] = function(block) {
-  // return 'robot.getNewCup();\n';
   return 'getNewCup();\n';
-  // return 'window.alert(\'Hello World!\');\n';
-  // return 'console.log(\'Hello World!\');\n';
 };
 
 Blockly.Blocks['DrinkShop_fillCupWith'] = {
@@ -94,10 +91,7 @@ Blockly.Blocks['DrinkShop_fillCupWith'] = {
 }
 Blockly.JavaScript['DrinkShop_fillCupWith'] = function(block) {
   var drink_str = block.getFieldValue('drink_dropdown');
-  // var value_drink_str = Blockly.JavaScript.valueToCode(block, 'drink_str', Blockly.JavaScript.ORDER_ATOMIC);
-
   return 'fillCupWith("' + drink_str + '");\n';
-  // return 'window.alert("' + drink_str + '");\n';
 };
 
 Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
@@ -107,7 +101,7 @@ Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
       "args0": [
         {
           "type": "field_dropdown",
-          "name": "drinkType",
+          "name": "material",
           "options": [
             [ BlocklyGames.getMsg('DrinkShop_blackTea'), "black tea" ],
             [ BlocklyGames.getMsg('DrinkShop_greenTea'), "green tea" ],
@@ -131,12 +125,9 @@ Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
   }
 }
 Blockly.JavaScript['DrinkShop_fillCupWithVolume'] = function(block) {
-  var drinkType = block.getFieldValue('drinkType');
+  var material = block.getFieldValue('material');
   var volume = block.getFieldValue('volume');
-  // var value_drink_str = Blockly.JavaScript.valueToCode(block, 'drink_str', Blockly.JavaScript.ORDER_ATOMIC);
-
-  return 'fillCupWithVolume("' + drinkType + '", ' + volume + ');\n';
-  // return 'window.alert("' + drink_str + '");\n';
+  return 'fillCupWithVolume("' + material + '", ' + volume + ');\n';
 };
 
 Blockly.Blocks['DrinkShop_coverCup'] = {
@@ -152,7 +143,6 @@ Blockly.Blocks['DrinkShop_coverCup'] = {
 }
 Blockly.JavaScript['DrinkShop_coverCup'] = function(block) {
   return 'coverCup();\n';
-  // return 'window.alert(\'Hello World!\');\n';
 };
 
 Blockly.Blocks['DrinkShop_serve'] = {
@@ -168,5 +158,4 @@ Blockly.Blocks['DrinkShop_serve'] = {
 }
 Blockly.JavaScript['DrinkShop_serve'] = function(block) {
   return 'serve();\n';
-  // return 'window.alert(\'Hello World!\');\n';
 };
