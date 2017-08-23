@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-08-17 16:22:11.550968",
+		"lastupdated": "2017-08-23 16:13:36.836413",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -249,7 +249,9 @@
 	"DrinkShop_msg_noBlackTea": "There's no black tea in the cup.",
 	"DrinkShop_msg_noGreenTea": "There's no green tea in the cup.",
 	"DrinkShop_msg_noMilk": "There's no milk in the cup.",
-	"DrinkShop_msg_notOnlyBlackTeaAndMilk": "There's not only black tea and in the cup.",
+	"DrinkShop_msg_noBoba": "There's no boba in the cup.",
+	"DrinkShop_msg_notOnlyBlackTeaAndMilk": "There's not only black tea and milk in the cup.",
+	"DrinkShop_msg_tooManyMaterials": "There are too many kinds of materials in the cup.",
 	"DrinkShop_msg_notCorrectProportion": "The proportion of materials is not correct.",
 	"DrinkShop_msg_cupNotCovered": "The cup is not covered.",
 	"DrinkShop_msg_levelFailed": "Level Failed.",
