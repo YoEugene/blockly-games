@@ -67,7 +67,7 @@ Shop.Game.Config.levels = [
     getInitialShopState: function() {
       return {
         money: 0,
-        remainingTime: 30,
+        remainingTime: 20,
         materials: {
           blackTea: 500,
           cup: 1,
@@ -110,7 +110,7 @@ Shop.Game.Config.levels = [
     getInitialShopState: function() {
       return {
         money: 0,
-        remainingTime: 30,
+        remainingTime: 20,
         materials: {
           greenTea: 500,
           cup: 1,
@@ -148,16 +148,22 @@ Shop.Game.Config.levels = [
   {
     blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWithVolume', 'DrinkShop_coverCup'],
     goal: "製作一杯奶茶。",
-    desc: '你可以輸入不同的數字來改變飲料倒入的量。<br />' +
+    desc:
+    '你可以輸入不同的數字來改變飲料倒入的量。<br />' +
     '<img src="shop/public/hints/zh/level_3_hint.png" class="hint-img" alt="level 3 hint" width="250">' +
     '杯子的容量是500毫升。<br />' +
-    '本店的奶茶，紅茶：牛奶的比例是3:2<br />',
+    '本店的奶茶，紅茶：牛奶的比例是3:2。<br />' +
+    '所以，<br />' +
+    '紅茶的體積是 500 × 0.6 = ____<br />' +
+    '牛奶的體積是 500 × 0.4 = ____<br />',
     getInitialShopState: function() {
       return {
         money: 0,
         remainingTime: 30,
         materials: {
+          blackTea: 500,
           greenTea: 500,
+          milk: 500,
           cup: 1,
         }
       };
@@ -196,6 +202,79 @@ Shop.Game.Config.levels = [
 
       // not correct proportion
       if (cup.filled["black tea"] !== 300 || cup.filled["milk"] !== 200) {
+        throw Game.levelFailedMessage('DrinkShop_msg_notCorrectProportion');
+      }
+
+      // cup not covered
+      if (!cup.isCovered) {
+        throw Game.levelFailedMessage('DrinkShop_msg_cupNotCovered');
+      }
+
+      return true;
+    },
+  },
+  // Level 4
+  {
+    blocks: ['DrinkShop_getNewCup', 'DrinkShop_fillCupWithVolume', 'DrinkShop_coverCup'],
+    goal: "製作一杯珍珠奶茶。",
+    desc:
+    '本店的珍珠奶茶，珍珠要佔據杯子容量的20%，<br />' +
+    '紅茶：牛奶的比例一樣要維持3:2。<br />' +
+    '所以，<br />' +
+    '珍珠的體積是 500 × 0.2 = ____<br />' +
+    '紅茶的體積是 500 × (1 - 0.2) × 0.6 = ____<br />' +
+    '牛奶的體積是 500 × (1 - 0.2) × 0.4 = ____<br />',
+    getInitialShopState: function() {
+      return {
+        money: 0,
+        remainingTime: 40,
+        materials: {
+          blackTea: 500,
+          greenTea: 500,
+          milk: 500,
+          boba: 500,
+          cup: 1,
+        }
+      };
+    },
+    checkLevelComplete: function() {
+      var robot = Game.getRobot();
+      // not holding a cup
+      if (!robot.holding || robot.holding.class !== "cup") {
+        throw Game.levelFailedMessage('DrinkShop_msg_noCup');
+      }
+
+      var cup = robot.holding;
+      // cup is empty
+      if (Object.keys(cup.filled).length === 0) {
+        throw Game.levelFailedMessage('DrinkShop_msg_cupEmpty');
+      }
+
+      // no black tea in cup
+      if (!cup.filled.hasOwnProperty("black tea")) {
+        throw Game.levelFailedMessage('DrinkShop_msg_noBlackTea');
+      }
+      // no milk in cup
+      if (!cup.filled.hasOwnProperty("milk")) {
+        throw Game.levelFailedMessage('DrinkShop_msg_noMilk');
+      }
+      // no boba in cup
+      if (!cup.filled.hasOwnProperty("boba")) {
+        throw Game.levelFailedMessage('DrinkShop_msg_noBoba');
+      }
+
+      // cup not full
+      if (cup.filledVolume < 499.9) {
+        throw Game.levelFailedMessage('DrinkShop_msg_cupNotFull');
+      }
+
+      // not only black tea and milk and boba
+      if (Object.keys(cup.filled).length > 3) {
+        throw Game.levelFailedMessage('DrinkShop_msg_tooManyMaterials');
+      }
+
+      // not correct proportion
+      if (cup.filled["boba"] !== 100 || cup.filled["black tea"] !== 240 || cup.filled["milk"] !== 160) {
         throw Game.levelFailedMessage('DrinkShop_msg_notCorrectProportion');
       }
 
