@@ -56,22 +56,20 @@ Scope.init = function() {
 
   /* Init Blockly */
   var toolbox = document.getElementById('toolbox');
-  var scale = 1.25;
+  var scale = Scope.Game.Config.levels[BlocklyGames.LEVEL].scale || 1;
   // init blocks
-  var blockTypes = Scope.Game.Config.levels[BlocklyGames.LEVEL].blocks;
-  for (var i = 0; i < blockTypes.length; i++) {
-    var blockType = blockTypes[i];
-    var block = document.createElement("block");
-    block.setAttribute("type", blockType);
+  var blockIds = Scope.Game.Config.levels[BlocklyGames.LEVEL].blockIds;
+  blockIds.forEach(function(blockId) {
+    var block = document.getElementById(blockId);
     toolbox.appendChild(block);
-  }
-  BlocklyGames.workspace = Blockly.inject('blockly',
-      {'media': 'third-party/blockly/media/',
-    //    'maxBlocks': Maze.MAX_BLOCKS,
-       'rtl': rtl,
-       'toolbox': toolbox,
-       'trashcan': true,
-       'zoom': {'startScale': scale}});
+  });
+  BlocklyGames.workspace = Blockly.inject('blockly', {
+    'media': 'third-party/blockly/media/',
+    'rtl': rtl,
+    'toolbox': toolbox,
+    'trashcan': true,
+    'zoom': {'startScale': scale},
+  });
 
 //   BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
 //   BlocklyGames.workspace.loadAudio_(Maze.SKIN.crashSound, 'fail');

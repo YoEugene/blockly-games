@@ -32,6 +32,7 @@
     <span id="DrinkShop_getNewCup">{msg meaning="DrinkShop_getNewCup" desc="block text - robot gets a cup"}get a new cup{/msg}</span>
     <span id="DrinkShop_fillCupWith">{msg meaning="DrinkShop_fillCupWith" desc="block text - robot fills the cup with drink"}fill the cup with{/msg}</span>
     <span id="DrinkShop_fillCupWithVolume">{msg meaning="DrinkShop_fillCupWithVolume" desc="block text - robot fills the cup with a volume of drink"}fill the cup with{/msg}</span>
+    <span id="DrinkShop_ml">{msg meaning="DrinkShop_ml" desc="block text - ml"}ml{/msg}</span>
     <span id="DrinkShop_coverCup">{msg meaning="DrinkShop_coverCup" desc="block text - robot covers the cup"}cover the cup{/msg}</span>
     <span id="DrinkShop_serve">{msg meaning="DrinkShop_serve" desc="block text - robot serves what it is holding"}serve the cup{/msg}</span>
 
@@ -337,6 +338,32 @@
  * Toolboxes for each level.
  */
 {template .toolbox}
+  <xml id="all-blocks" style="display: none;">
+    <block type="DrinkShop_getNewCup" id="block_DrinkShop_getNewCup"></block>
+    <block type="DrinkShop_fillCupWith" id="block_DrinkShop_fillCupWith"></block>
+    <block type="DrinkShop_coverCup" id="block_DrinkShop_coverCup"></block>
+    <block type="DrinkShop_serve" id="block_DrinkShop_serve"></block>
+    <block type="DrinkShop_fillCupWithVolume" id="block_DrinkShop_fillCupWithVolume">
+      <value name="VOLUME">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_arithmetic" id="block_math_arithmetic">
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">500</field>
+        </shadow>
+      </value>
+      <field name="OP">MULTIPLY</field>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">0.1</field>
+        </shadow>
+      </value>
+    </block>
+  </xml>
   <xml id="toolbox" style="display: none;">
     // <category id="toolbox-others" colour="330" name="Others">
     // <block type="DrinkShop_getNewCup"></block>
