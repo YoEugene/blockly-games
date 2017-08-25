@@ -68,7 +68,14 @@ Scope.init = function() {
     'rtl': rtl,
     'toolbox': toolbox,
     'trashcan': true,
-    'zoom': {'startScale': scale},
+    'zoom': {
+      controls: true,
+      wheel: true,
+      startScale: scale,
+      maxScale: scale,
+      minScale: 0.5,
+      scaleSpeed: 1.25,
+    },
   });
 
 //   BlocklyGames.workspace.loadAudio_(Maze.SKIN.winSound, 'win');
