@@ -110,6 +110,7 @@ Scope.init = function() {
   BlocklyGames.bindClick('drink-shop-robot', showCodeEditor);
   BlocklyGames.bindClick('show-code-editor-button', showCodeEditor);
   BlocklyGames.bindClick('hide-code-editor-zone', hideCodeEditor);
+  BlocklyGames.bindClick('runButton', hideCodeEditor);
 
   // Lazy-load the JavaScript interpreter.
   setTimeout(BlocklyInterface.importInterpreter, 1);
