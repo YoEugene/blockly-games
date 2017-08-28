@@ -136,7 +136,7 @@ html[dir="RTL"] button.primary {
   /* to calc */
   width: 65vw;
   height: 100vh;
-  background-color: #e0e0e0;
+  background-color: #e7e7e7;
   position: relative;
   display: inline-block;
   /* z-index: 100000; */
