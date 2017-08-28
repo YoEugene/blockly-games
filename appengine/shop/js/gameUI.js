@@ -44,6 +44,9 @@ UI.rgbaToStr = function(color) {
 }
 
 UI.mixNum = function(num1, volume1, num2, volume2) {
+  if (volume1 + volume2 == 0) {
+    return 0;
+  }
   return (num1 * volume1 + num2 * volume2) / (volume1 + volume2);
 }
 
@@ -52,7 +55,7 @@ UI.mixColor = function(color1, volume1, color2, volume2) {
     r: UI.mixNum(color1.r, volume1 * color1.a, color2.r, volume2 * color2.a),
     g: UI.mixNum(color1.g, volume1 * color1.a, color2.g, volume2 * color2.a),
     b: UI.mixNum(color1.b, volume1 * color1.a, color2.b, volume2 * color2.a),
-    a: Math.max(color1.a, color2.a),
+    a: UI.mixNum(color1.a, volume1 * color1.a, color2.a, volume2 * color2.a),
   };
 }
 

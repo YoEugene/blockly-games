@@ -26,9 +26,9 @@ goog.require('BlocklyGames');
 // goog.require('Blockly.Constants.Loops');
 // goog.require('Blockly.JavaScript.loops');
 
-// goog.require('Blockly.Blocks.math');  // Deprecated
-// goog.require('Blockly.Constants.Math');
-// goog.require('Blockly.JavaScript.math');
+goog.require('Blockly.Blocks.math');  // Deprecated
+goog.require('Blockly.Constants.Math');
+goog.require('Blockly.JavaScript.math');
 
 // goog.require('Blockly.Blocks.procedures');
 // goog.require('Blockly.JavaScript.procedures');
@@ -97,24 +97,23 @@ Blockly.JavaScript['DrinkShop_fillCupWith'] = function(block) {
 Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
   init: function() {
     this.jsonInit({
-      "message0": BlocklyGames.getMsg('DrinkShop_fillCupWithVolume') + " %1 %2 ml",
+      "message0": BlocklyGames.getMsg('DrinkShop_fillCupWithVolume') + " %1 %2 " + BlocklyGames.getMsg('DrinkShop_ml'),
       "args0": [
         {
           "type": "field_dropdown",
-          "name": "material",
+          "name": "MATERIAL",
           "options": [
             [ BlocklyGames.getMsg('DrinkShop_blackTea'), "black tea" ],
             [ BlocklyGames.getMsg('DrinkShop_greenTea'), "green tea" ],
             [ BlocklyGames.getMsg('DrinkShop_milk'), "milk" ],
-            [ BlocklyGames.getMsg('DrinkShop_ice'), "ice" ],
+            // [ BlocklyGames.getMsg('DrinkShop_ice'), "ice" ],
             [ BlocklyGames.getMsg('DrinkShop_boba'), "boba" ],
           ]
         },
         {
-          "type": "field_number",
-          "name": "volume",
-          "value": 500,
-          "min": 0
+          "type": "input_value",
+          "name": "VOLUME",
+          "check": "Number"
         }
       ],
       "previousStatement": null,
@@ -125,8 +124,10 @@ Blockly.Blocks['DrinkShop_fillCupWithVolume'] = {
   }
 }
 Blockly.JavaScript['DrinkShop_fillCupWithVolume'] = function(block) {
-  var material = block.getFieldValue('material');
-  var volume = block.getFieldValue('volume');
+  var material = block.getFieldValue('MATERIAL');
+  var volume = Blockly.JavaScript.valueToCode(block, 'VOLUME',
+  Blockly.JavaScript.ORDER_COMMA) || 0;
+  console.log(volume);
   return 'fillCupWithVolume("' + material + '", ' + volume + ');\n';
 };
 
