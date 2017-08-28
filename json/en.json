@@ -1,7 +1,7 @@
 {
 	"@metadata": {
 		"author": "Neil Fraser <fraser@google.com>",
-		"lastupdated": "2017-08-23 16:13:36.836413",
+		"lastupdated": "2017-08-25 14:54:12.012212",
 		"locale": "en",
 		"messagedocumentation" : "qqq"
 	},
@@ -231,6 +231,7 @@
 	"DrinkShop_getNewCup": "get a new cup",
 	"DrinkShop_fillCupWith": "fill the cup with",
 	"DrinkShop_fillCupWithVolume": "fill the cup with",
+	"DrinkShop_ml": "ml",
 	"DrinkShop_coverCup": "cover the cup",
 	"DrinkShop_serve": "serve the cup",
 	"DrinkShop_blackTea": "black tea",

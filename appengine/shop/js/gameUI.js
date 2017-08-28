@@ -44,6 +44,9 @@ UI.rgbaToStr = function(color) {
 }
 
 UI.mixNum = function(num1, volume1, num2, volume2) {
+  if (volume1 + volume2 == 0) {
+    return 0;
+  }
   return (num1 * volume1 + num2 * volume2) / (volume1 + volume2);
 }
 
