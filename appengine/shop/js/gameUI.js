@@ -17,8 +17,8 @@ UI.init = function(shopState) {
   // UI.drawObject(UI.Config.background, UI.svg);
   // UI.drawObject(UI.Config.workspace, UI.svg);
   UI.dom.workspace = document.getElementById('workspace-main');
-  UI.dom.timeText = document.getElementById('scoring-board-time-text');
-  UI.dom.moneyText = document.getElementById('scoring-board-money-text');
+  UI.dom.timeText = document.getElementById('status-time-text');
+  UI.dom.moneyText = document.getElementById('status-money-text');
 
   UI.updateMoney(shopState.money);
   UI.updateTime(shopState.remainingTime);
