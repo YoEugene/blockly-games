@@ -11,7 +11,7 @@ var middleY = scale / 2;
 Config.colors = {};
 
 Config.colors["black tea"] = {r: 192, g: 64, b: 0, a: 0.75};
-Config.colors["green tea"] = {r: 224, g: 240, b: 48, a: 0.5};
+Config.colors["green tea"] = {r: 224, g: 200, b: 48, a: 0.75};
 Config.colors["milk"] = {r: 255, g: 255, b: 240, a: 1};
 
 Config.getMaterialColor = function(materialName) {
