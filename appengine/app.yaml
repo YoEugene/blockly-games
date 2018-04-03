@@ -64,6 +64,18 @@ handlers:
   static_dir: shop/js
   secure: always
 
+# debugging game.
+- url: /debugging
+  static_files: debugging/public/debugging.html
+  upload: debugging\.html
+  secure: always
+- url: /debugging/public/
+  static_dir: debugging/public
+  secure: always
+- url: /debugging/js/
+  static_dir: debugging/js
+  secure: always
+
 
 # About page.
 - url: /about

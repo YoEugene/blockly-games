@@ -89,6 +89,7 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     BlocklyDialogs.dialogMouseDownWrapper_ =
         Blockly.bindEvent_(header, 'mousedown', null,
                            BlocklyDialogs.dialogMouseDown_);
+    shadow.addEventListener('click', BlocklyDialogs.hideDialog, true)
   }
   dialog.appendChild(content);
   content.className = content.className.replace('dialogHiddenContent', '');
@@ -129,7 +130,7 @@ BlocklyDialogs.dialogStartY_ = 0;
  */
 BlocklyDialogs.dialogMouseDown_ = function(e) {
   BlocklyDialogs.dialogUnbindDragEvents_();
-  if (Blockly.isRightButton(e)) {
+  if (Blockly.utils.isRightButton(e)) {
     // Right-click.
     return;
   }

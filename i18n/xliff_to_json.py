@@ -125,6 +125,8 @@ def _process_file(filename):
                                      key + ' not found')
             if unit['description'].lower() == 'ibid':
               if unit['meaning'] not in names:
+                print(names)
+                print(unit['meaning'])
                 # If the term has not already been described, the use of 'ibid'
                 # is an error.
                 raise InputError(

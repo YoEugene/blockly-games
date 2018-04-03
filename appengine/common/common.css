@@ -86,6 +86,11 @@ button.secondary {
   background-color: #4d90fe;
   color: #fff;
 }
+button.warning {
+  border: 1px solid #ef5f5f;
+  background-color: #ef5f5f;
+  color: #fff;
+}
 button.primary>img,
 button.secondary>img {
   opacity: 1;
